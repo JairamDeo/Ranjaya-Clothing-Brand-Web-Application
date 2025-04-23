@@ -1,98 +1,165 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaInstagram, FaFacebookF, FaWhatsapp } from 'react-icons/fa';
+import { Instagram, Facebook, Twitter, Phone, Mail, MapPin } from 'lucide-react';
+// Import logo from assets
 import Logo from '../assets/Logo.png';
 
 const Footer = () => {
+  const year = new Date().getFullYear();
+  
+  // Footer Navigation Links
+  const footerLinks = [
+    {
+      title: "Shop",
+      links: [
+        { name: "Suit Sets", path: "/suit-sets" },
+        { name: "Sarees", path: "/sarees" },
+        { name: "New Arrivals", path: "/new-arrivals" },
+        { name: "Best Sellers", path: "/best-sellers" },
+        { name: "Clearance Sale", path: "/clearance-sale" }
+      ]
+    },
+    {
+      title: "About",
+      links: [
+        { name: "Our Story", path: "/about-us" },
+        { name: "Reviews", path: "/reviews" },
+        { name: "Sustainability", path: "/sustainability" },
+        { name: "Contact Us", path: "/contact-us" }
+      ]
+    },
+    {
+      title: "Help",
+      links: [
+        { name: "Shipping & Returns", path: "/shipping" },
+        { name: "Size Guide", path: "/size-guide" },
+        { name: "FAQ", path: "/faq" },
+        { name: "Privacy Policy", path: "/privacy-policy" },
+        { name: "Terms & Conditions", path: "/terms" }
+      ]
+    }
+  ];
+
+  // Social Media Links
   const socialLinks = [
-    {
-      icon: <FaInstagram className="text-white text-lg" />,
-      href: 'https://www.instagram.com/',
-      bg: 'bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500',
-    },
-    {
-      icon: <FaFacebookF className="text-white text-lg" />,
-      href: 'https://www.facebook.com/',
-      bg: 'bg-blue-600',
-    },
-    {
-      icon: <FaWhatsapp className="text-white text-lg" />,
-      href: 'https://www.whatsapp.com/',
-      bg: 'bg-green-500',
-    },
+    { icon: <Instagram className="h-5 w-5" />, path: "https://instagram.com", label: "Instagram", hoverColor: "hover:bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500" },
+    { icon: <Facebook className="h-5 w-5" />, path: "https://facebook.com", label: "Facebook", hoverColor: "hover:bg-blue-600" },
+    { icon: <Twitter className="h-5 w-5" />, path: "https://twitter.com", label: "Twitter", hoverColor: "hover:bg-sky-500" },
+    { icon: <Phone className="h-5 w-5" />, path: "tel:+919876543210", label: "Phone", hoverColor: "hover:bg-green-600" }
   ];
 
   return (
-    <footer className="bg-cream text-darkBrown items-center">
-      <div className="px-4 py-3 md:px-6 lg:px-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-12 gap-x-6 sm:gap-x-12">
-          {/* Logo Section */}
-          <div className="lg:col-span-1" data-aos="fade-right">
-            <img src={Logo} alt="Ranjaya Logo" className="h-16 mb-4" />
-            <p className="leading-relaxed text-sm">
-              While the new generation stopped wearing Sarees, Ranjaya is a wave of traditions, and the art of draping a saree for new India.
+    <footer className="bg-cream border-t border-maroon-20 pt-12 pb-6">
+      <div className="container mx-auto px-4 md:px-6 lg:px-12">
+        {/* Main Footer Content - Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          {/* Logo and About Column */}
+          <div className="space-y-4">
+            <Link to="/" className="inline-block transform transition-transform duration-300 hover:scale-105">
+              <img src={Logo} alt="Ranjaya" className="h-16" />
+            </Link>
+            <p className="text-darkBrown text-sm leading-relaxed">
+              Celebrating the art of ethnic wear with timeless designs and premium craftsmanship. Every piece tells a story of heritage and elegance.
             </p>
-          </div>
-
-          {/* Shop */}
-          <div data-aos="fade-up" data-aos-delay="100">
-            <h3 className="text-lg font-semibold border-b-2 border-maroon inline-block pb-1">Shop</h3>
-            <ul className="space-y-3 mt-4 text-sm">
-              {["Sarees", "Nazaakat", "Rut-Bahar", "Rose/Roz"].map((item, index) => (
-                <li key={index}>
-                  <Link to={`/shop/${item.toLowerCase().replace(/\//g, '-')}`} className="hover:underline transition-all duration-300 ease-in-out hover:scale-105">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-
-          {/* Information */}
-          <div data-aos="fade-up" data-aos-delay="150">
-            <h3 className="text-lg font-semibold border-b-2 border-maroon inline-block pb-1">Information</h3>
-            <ul className="space-y-3 mt-4 text-sm">
-              <li><Link to="/about" className="hover:underline transition-all duration-300 ease-in-out hover:scale-105">About Us</Link></li>
-              <li><Link to="/contact" className="hover:underline transition-all duration-300 ease-in-out hover:scale-105">Contact</Link></li>
-              <li><Link to="/faq" className="hover:underline transition-all duration-300 ease-in-out hover:scale-105">FAQs</Link></li>
-              <li><Link to="/terms" className="hover:underline transition-all duration-300 ease-in-out hover:scale-105">Terms & Conditions</Link></li>
-            </ul>
-          </div>
-
-          {/* Quick Links */}
-          <div data-aos="fade-up" data-aos-delay="200">
-            <h3 className="text-lg font-semibold border-b-2 border-maroon inline-block pb-1">Quick Links</h3>
-            <ul className="space-y-3 mt-4 text-sm">
-              <li><Link to="/" className="hover:underline transition-all duration-300 ease-in-out hover:scale-105">Home</Link></li>
-              <li><Link to="/cart" className="hover:underline transition-all duration-300 ease-in-out hover:scale-105">Cart</Link></li>
-              <li><Link to="/wishlist" className="hover:underline transition-all duration-300 ease-in-out hover:scale-105">Wishlist</Link></li>
-              <li><Link to="/orders" className="hover:underline transition-all duration-300 ease-in-out hover:scale-105">My Orders</Link></li>
-            </ul>
-          </div>
-
-          {/* Social Media */}
-          <div data-aos="fade-left" data-aos-delay="300">
-            <h3 className="text-lg font-semibold border-b-2 border-maroon inline-block pb-1">Follow Us</h3>
-            <div className="flex items-center space-x-4 mt-4">
-              {socialLinks.map(({ icon, href, bg }, index) => (
-                <a
-                  key={index}
-                  href={href}
-                  target="_blank"
+            {/* Social Media Icons */}
+            <div className="flex space-x-3 mt-4">
+              {socialLinks.map((social, index) => (
+                <a 
+                  key={index} 
+                  href={social.path} 
+                  target="_blank" 
                   rel="noopener noreferrer"
-                  className={`${bg} p-3 rounded-full shadow-custom transition-all duration-300 ease-in-out transform hover:scale-110 hover:rotate-6`}
+                  aria-label={social.label}
+                  className={`bg-cream text-maroon ${social.hoverColor} hover:text-white p-2 rounded-full transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg`}
                 >
-                  {icon}
+                  {social.icon}
                 </a>
               ))}
             </div>
           </div>
+
+          {/* Footer Link Columns */}
+          {footerLinks.map((column, index) => (
+            <div key={index} className="space-y-4">
+              <h3 className="font-medium text-maroon tracking-wide text-lg relative inline-block">
+                {column.title}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-maroon transition-all duration-300 group-hover:w-full"></span>
+              </h3>
+              <ul className="space-y-2">
+                {column.links.map((link, linkIndex) => (
+                  <li key={linkIndex}>
+                    <Link 
+                      to={link.path} 
+                      className="text-darkBrown hover:text-maroon transition-colors duration-300 relative group inline-block py-1"
+                    >
+                      <span>{link.name}</span>
+                      <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-maroon transition-all duration-300 group-hover:w-full"></span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        {/* Bottom Footer */}
-        <div className="mt-10 border-t border-lightPink/50 pt-4 text-center text-sm">
-          © {new Date().getFullYear()} Ranjaya. All rights reserved.
+        {/* Contact Information Bar */}
+        <div className='md:flex md:items-center md:justify-center border-t border-maroon-20'>
+          <div className=" pt-6 pb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="flex items-center space-x-2 text-darkBrown text-sm group">
+              <Mail size={18} className="text-maroon transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
+              <a href="mailto:contact@ranjaya.com" className="hover:text-maroon transition-colors duration-300 relative inline-block">
+                contact@ranjaya.com
+                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-maroon transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </div>
+            <div className="flex items-center space-x-2 text-darkBrown text-sm group">
+              <Phone size={18} className="text-maroon transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
+              <a href="tel:+919876543210" className="hover:text-maroon transition-colors duration-300 relative inline-block">
+                +91 98765 43210
+                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-maroon transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </div>
+            <div className="flex items-center space-x-2 text-darkBrown text-sm">
+              <MapPin size={18} className="text-maroon" />
+              <span>123 Fashion Street, Mumbai, India</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Newsletter Subscription */}
+        {/* <div className="border-t border-maroon-20 py-6">
+          <div className="max-w-lg mx-auto">
+            <h3 className="text-center text-maroon font-medium mb-3">Subscribe to our newsletter</h3>
+            <form className="flex flex-col sm:flex-row gap-2">
+              <input 
+                type="email" 
+                placeholder="Your email address" 
+                className="flex-grow px-3 py-2 border border-maroon-20 focus:border-maroon focus:ring-1 focus:ring-maroon outline-none rounded-md bg-cream transition-all duration-300"
+                required
+              />
+              <button 
+                type="submit" 
+                className="bg-maroon hover:bg-darkMaroon text-cream px-4 py-2 rounded-md transition-all duration-300 font-medium transform hover:scale-105 hover:shadow-md"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div> */}
+
+        {/* Copyright Bar */}
+        <div className="border-t border-maroon-20 pt-6 text-center text-sm text-darkBrown">
+          <p>© {year} Ranjaya. All rights reserved.</p>
+          <div className="flex justify-center space-x-6 mt-2">
+            <Link to="/privacy-policy" className="hover:text-maroon transition-colors duration-300 relative group inline-block">
+              Privacy Policy
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-maroon transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <Link to="/terms" className="hover:text-maroon transition-colors duration-300 relative group inline-block">
+              Terms of Service
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-maroon transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
