@@ -5,14 +5,14 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 // Import product images from assets folder
-import product1 from '../../assets/HomeImg/product1.jpg';
-import product2 from '../../assets/HomeImg/product2.jpg';
-import product3 from '../../assets/HomeImg/product3.jpg';
-import product4 from '../../assets/HomeImg/product4.jpg';
-import product5 from '../../assets/HomeImg/product5.jpg';
-import product6 from '../../assets/HomeImg/product6.jpg';
-import product7 from '../../assets/HomeImg/product7.jpg';
-import product8 from '../../assets/HomeImg/product8.jpg';
+import product1 from '../../assets/HomeImg/featuredcollection1.jpg';
+import product2 from '../../assets/HomeImg/featuredcollection2.jpg';
+import product3 from '../../assets/HomeImg/featuredcollection3.jpg';
+import product4 from '../../assets/HomeImg/featuredcollection4.jpg';
+import product5 from '../../assets/HomeImg/featuredcollection5.jpg';
+import product6 from '../../assets/HomeImg/featuredcollection6.jpg';
+import product7 from '../../assets/HomeImg/featuredcollection7.jpg';
+import product8 from '../../assets/HomeImg/featuredcollection8.jpg';
 
 export default function HomeSection3() {
   const [activeIndex, setActiveIndex] = useState(0);
