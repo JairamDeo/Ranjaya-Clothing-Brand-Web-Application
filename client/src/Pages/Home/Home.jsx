@@ -6,6 +6,7 @@ import HomeSection4 from './HomeSection4';
 import HomeSection5 from './HomeSection5';
 import HomeSection6 from './HomeSection6';
 import HomeAbout from './HomeAbout';
+import CustomerReviews from './CustomerReviews';
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <HomeSection5/>
       <HomeSection6/>
       <HomeAbout/>
+      <CustomerReviews/>
     </div>
   )
 }

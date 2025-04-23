@@ -28,9 +28,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-12 gap-x-6 sm:gap-x-12">
           {/* Logo Section */}
           <div className="lg:col-span-1" data-aos="fade-right">
-            <img src={Logo} alt="Pironi Logo" className="h-16 mb-4" />
+            <img src={Logo} alt="Ranjaya Logo" className="h-16 mb-4" />
             <p className="leading-relaxed text-sm">
-              While the new generation stopped wearing Sarees, Pironi is a wave of traditions, and the art of draping a saree for new India.
+              While the new generation stopped wearing Sarees, Ranjaya is a wave of traditions, and the art of draping a saree for new India.
             </p>
           </div>
 
@@ -92,7 +92,7 @@ const Footer = () => {
 
         {/* Bottom Footer */}
         <div className="mt-10 border-t border-lightPink/50 pt-4 text-center text-sm">
-          © {new Date().getFullYear()} Pironi. All rights reserved.
+          © {new Date().getFullYear()} Ranjaya. All rights reserved.
         </div>
       </div>
     </footer>
