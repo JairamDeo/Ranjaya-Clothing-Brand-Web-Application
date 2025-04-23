@@ -102,7 +102,7 @@ export default function BannerCarousel() {
 
   return (
     <div 
-      className="relative w-full overflow-hidden"
+      className="pb-3 relative w-full overflow-hidden"
       ref={carouselRef}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -182,11 +182,6 @@ export default function BannerCarousel() {
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
-      </div>
-      
-      {/* Keyboard navigation hint for desktop users (optional) */}
-      <div className="hidden lg:block absolute bottom-2 right-2 text-xs text-darkBrown bg-cream bg-opacity-40 px-2 py-1 rounded">
-        Use ← → arrow keys to navigate
       </div>
     </div>
   );
