@@ -19,6 +19,7 @@ function ScrollToTop() {
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ContactForm from './Pages/Contact/ContactForm';
 
 // Lazy-loaded screens
 const AuthPage = lazy(() => import('./Authentication/AuthPage'));
@@ -35,6 +36,7 @@ function App() {
           <Routes>
             <Route exact path='/' element={<Home />} />
             <Route exact path='/account' element={<AuthPage/>} />
+            <Route exact path='/contact-us' element={<ContactForm/>} />
           </Routes>
         </Suspense>
         <Footer/>

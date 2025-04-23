@@ -20,6 +20,28 @@ export default {
       borderColor: {
         'maroon-20': 'rgba(153, 63, 60, 0.2)',
       },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(20px)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        zoomIn: {
+          '0%': { transform: 'scale(0.9)' },
+          '100%': { transform: 'scale(1)' },
+        }
+      },
+      animation: {
+        'fadeIn': 'fadeIn 0.5s ease-out',
+        'slideUp': 'slideUp 0.5s ease-out',
+        'zoomIn': 'zoomIn 0.5s ease-out',
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      }
     },
   },
   plugins: [],
