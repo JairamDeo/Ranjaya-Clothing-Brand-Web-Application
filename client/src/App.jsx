@@ -1,0 +1,46 @@
+import './App.css'
+import React, { Suspense, lazy, useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+
+function ScrollToTop() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);  // Scroll to top when the route changes
+  }, [location]);
+
+  return null;
+}
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+// Lazy-loaded screens
+const AuthPage = lazy(() => import('./Authentication/AuthPage'));
+const Home = lazy(() => import('./Pages/Home/Home'));
+
+function App() {
+
+  return (
+    <Router>
+      <div >
+      <ScrollToTop /> {/* Scroll to top on route change */}
+        <Header/>
+        <Suspense fallback={<div className="text-center p-4">Loading...</div>}>
+          <Routes>
+            <Route exact path='/' element={<Home />} />
+            <Route exact path='/account' element={<AuthPage/>} />
+          </Routes>
+        </Suspense>
+        <Footer/>
+      </div>
+    </Router>
+  )
+}
+
+export default App
