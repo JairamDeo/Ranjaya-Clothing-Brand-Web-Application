@@ -25,6 +25,9 @@ import ContactForm from './Pages/Contact/ContactForm';
 const AuthPage = lazy(() => import('./Authentication/AuthPage'));
 const Home = lazy(() => import('./Pages/Home/Home'));
 const NewArrivals = lazy(() => import('./Pages/New-Arrivals/NewArrivals'));
+const BestSeller = lazy(() => import('./Pages/Best-Sellers/BestSeller'));
+const Clearance = lazy(() => import('./Pages/Clearance-Sale/Clearance'));
+const AboutUs = lazy(() => import('./Pages/AboutUs'));
 
 function App() {
 
@@ -37,6 +40,9 @@ function App() {
           <Routes>
             <Route exact path='/' element={<Home />} />
             <Route exact path='/new-arrivals' element={<NewArrivals />} />
+            <Route exact path='/best-sellers' element={<BestSeller />} />
+            <Route exact path='/clearance-sale' element={<Clearance />} />
+            <Route exact path='/about-us' element={<AboutUs />} />
 
 
             <Route exact path='/account' element={<AuthPage/>} />

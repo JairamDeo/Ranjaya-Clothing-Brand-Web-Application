@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import OwnerImg from '../../assets/HomeImg/AboutUsImg.jpg'
+import OwnerImg from '../../assets/AboutUsImg/HomeAbout.jpg'
 
 const HomeAbout = () => {
   return (
@@ -38,7 +38,7 @@ const HomeAbout = () => {
             </p>
             <div className="text-center md:text-left">
               <Link 
-                to="/about" 
+                to="/about-us" 
                 className="inline-block px-6 py-3 bg-maroon text-cream rounded hover:bg-darkMaroon transition-colors duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
                 data-aos="fade-up"
                 data-aos-delay="200"
