@@ -24,6 +24,7 @@ import ContactForm from './Pages/Contact/ContactForm';
 // Lazy-loaded screens
 const AuthPage = lazy(() => import('./Authentication/AuthPage'));
 const Home = lazy(() => import('./Pages/Home/Home'));
+const NewArrivals = lazy(() => import('./Pages/New-Arrivals/NewArrivals'));
 
 function App() {
 
@@ -35,6 +36,9 @@ function App() {
         <Suspense fallback={<div className="text-center p-4">Loading...</div>}>
           <Routes>
             <Route exact path='/' element={<Home />} />
+            <Route exact path='/new-arrivals' element={<NewArrivals />} />
+
+
             <Route exact path='/account' element={<AuthPage/>} />
             <Route exact path='/contact-us' element={<ContactForm/>} />
           </Routes>
