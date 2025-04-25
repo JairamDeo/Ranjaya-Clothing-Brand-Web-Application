@@ -148,7 +148,7 @@ const ContactForm = ({
     setFormData({
       name: '',
       email: '',
-      countryCode: '+91',
+      countryCode: '+91' + ' ',
       phoneNumber: '',
       query: ''
     });
@@ -168,11 +168,12 @@ const ContactForm = ({
       <div className="max-w-5xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Contact Form */}
-          <div className="bg-white rounded-lg shadow-custom p-6 md:p-8">
+          <div className="bg-cream rounded-lg shadow-custom p-6 md:p-8">
             <h2 className="text-2xl font-bold text-darkBrown mb-6 relative">
               Get in Touch
               <span className="absolute bottom-0 left-0 w-16 h-1 bg-maroon"></span>
             </h2>
+            <p className='pb-3 text-gray-600'>We’d love to hear from you—whether it’s feedback, collaboration, or just a hello!</p>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name Field */}
@@ -227,14 +228,14 @@ const ContactForm = ({
               
               {/* Mobile Number Field with Country Code - Combined Focus */}
               <div className="relative">
-                <div className={`flex ${phoneInputFocused ? 'ring-2 ring-maroon rounded-md' : ''}`}>
+                <div className={`flex ${phoneInputFocused ? ' ring-maroon rounded-md' : ''}`}>
                   <div className="w-24">
                     <select
                       value={formData.countryCode}
                       onChange={handleCountryCodeChange}
                       onFocus={handlePhoneFocus}
                       onBlur={handlePhoneBlur}
-                      className={`h-full w-full rounded-l-md border-2 border-r-0 outline-none transition-all duration-300
+                      className={`peer h-full w-full rounded-l-md border-2 border-r-0 outline-none transition-all duration-300
                         ${errors.phoneNumber ? 'border-red-500' : phoneInputFocused ? 'border-maroon' : 'border-gray-200'} 
                         bg-transparent px-2 py-3`}
                     >
@@ -326,7 +327,7 @@ const ContactForm = ({
           </div>
           
           {/* Contact Information */}
-          <div className="bg-white rounded-lg shadow-custom p-6 md:p-8 relative">
+          <div className="bg-cream rounded-lg shadow-custom p-6 md:p-8 relative">
             <h2 className="text-2xl font-bold text-darkBrown mb-6 relative">
               Contact Information
               <span className="absolute bottom-0 left-0 w-16 h-1 bg-maroon"></span>

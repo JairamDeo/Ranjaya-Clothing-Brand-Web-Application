@@ -289,7 +289,7 @@ const Header = () => {
         </div>
 
         {/* Mobile Menu Footer - Now at the bottom with flex layout */}
-        <div className="border-t border-[#993f3c] border-opacity-20 p-4 mt-auto w-full">
+        <div className="border-t border-[#993f3c] border-opacity-20 p-4 w-full absolute bottom-[60px] sm:bottom-[180px] md:bottom-[80px]">
           <div className="flex space-x-4 justify-around">
             <Link to="/account" className="text-center text-[#4a3e3e] hover:text-[#993f3c]" onClick={() => setMobileMenuOpen(false)}>
               <User className="h-5 w-5 mx-auto mb-1" />
