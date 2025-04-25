@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import OwnerImg1 from '../assets/AboutUsImg/AboutUs1.jpg';
-import OwnerImg2 from '../assets/AboutUsImg/AboutUs2.jpg';
+import OwnerImg1 from '../assets/AboutUsImg/AboutUs1.webp';
+import OwnerImg2 from '../assets/AboutUsImg/AboutUs2.webp';
 
 const AboutUs = () => {
   useEffect(() => {

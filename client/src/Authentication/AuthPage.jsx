@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 // Make sure your image path is correct
-import authBG from '../assets/authbg.jpg';
+import authBG from '../assets/authbg.webp';
 
 export default function AuthPage() {
   const [isSignIn, setIsSignIn] = useState(true);

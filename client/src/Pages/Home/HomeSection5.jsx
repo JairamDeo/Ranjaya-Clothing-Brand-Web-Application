@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 // Import desktop images
-import banner1 from '../../assets/HomeImg/sucessStorydesktop.jpg';
+import banner1 from '../../assets/HomeImg/sucessStorydesktop.webp';
 // Import mobile-optimized images
-import banner1Mobile from '../../assets/HomeImg/sucessStorymobile.jpg';
+import banner1Mobile from '../../assets/HomeImg/sucessStorymobile.webp';
 
 export default function HomeSection5() {
 

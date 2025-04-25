@@ -5,14 +5,14 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 // Import product images from assets folder
-import product1 from '../../assets/HomeImg/Ranjayafavimg1.jpg';
-import product2 from '../../assets/HomeImg/Ranjayafavimg2.jpg';
-import product3 from '../../assets/HomeImg/Ranjayafavimg3.jpg';
-import product4 from '../../assets/HomeImg/Ranjayafavimg4.jpg';
-import product5 from '../../assets/HomeImg/Ranjayafavimg5.jpg';
-import product6 from '../../assets/HomeImg/Ranjayafavimg6.jpg';
-import product7 from '../../assets/HomeImg/Ranjayafavimg7.jpg';
-import product8 from '../../assets/HomeImg/Ranjayafavimg8.jpg';
+import product1 from '../../assets/HomeImg/Ranjayafavimg1.webp';
+import product2 from '../../assets/HomeImg/Ranjayafavimg2.webp';
+import product3 from '../../assets/HomeImg/Ranjayafavimg3.webp';
+import product4 from '../../assets/HomeImg/Ranjayafavimg4.webp';
+import product5 from '../../assets/HomeImg/Ranjayafavimg5.webp';
+import product6 from '../../assets/HomeImg/Ranjayafavimg6.webp';
+import product7 from '../../assets/HomeImg/Ranjayafavimg7.webp';
+import product8 from '../../assets/HomeImg/Ranjayafavimg8.webp';
 
 export default function HomeSection4() {
   const [activeIndex, setActiveIndex] = useState(0);

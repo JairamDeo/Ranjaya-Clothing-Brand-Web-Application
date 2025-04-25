@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import { register } from 'swiper/element/bundle';
 // Import videos directly
-import video1 from '../../assets/HomeImg/video1.mp4';
-import video2 from '../../assets/HomeImg/video2.mp4';
-import video3 from '../../assets/HomeImg/video3.mp4';
-import video4 from '../../assets/HomeImg/video4.mp4';
+import video1 from '../../assets/HomeImg/video1.webm';
+import video2 from '../../assets/HomeImg/video2.webm';
+import video3 from '../../assets/HomeImg/video3.webm';
+import video4 from '../../assets/HomeImg/video4.webm';
 
 register();
 

@@ -5,11 +5,11 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 // Assuming these images are in your assets folder
-import collection1Img from '../../assets/HomeImg/trendingcollection1.jpg';
-import collection2Img from '../../assets/HomeImg/trendingcollection2.jpg';
-import collection3Img from '../../assets/HomeImg/trendingcollection3.jpg';
-import collection4Img from '../../assets/HomeImg/trendingcollection4.jpg';
-import collection5Img from '../../assets/HomeImg/trendingcollection5.jpg';
+import collection1Img from '../../assets/HomeImg/trendingcollection1.webp';
+import collection2Img from '../../assets/HomeImg/trendingcollection2.webp';
+import collection3Img from '../../assets/HomeImg/trendingcollection3.webp';
+import collection4Img from '../../assets/HomeImg/trendingcollection4.webp';
+import collection5Img from '../../assets/HomeImg/trendingcollection5.webp';
 
 export default function HomeSection2({ 
   title = "New Trending Collection!",

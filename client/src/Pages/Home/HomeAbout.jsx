@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import OwnerImg from '../../assets/AboutUsImg/HomeAbout.jpg'
+import OwnerImg from '../../assets/AboutUsImg/HomeAbout.webp'
 
 const HomeAbout = () => {
   return (

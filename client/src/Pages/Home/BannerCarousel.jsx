@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 // Import desktop images
-import banner1 from '../../assets/HomeImg/topbanner1.jpg';
-import banner2 from '../../assets/HomeImg/topbanner2.jpg';
-import banner3 from '../../assets/HomeImg/topbanner3.jpg';
-import banner4 from '../../assets/HomeImg/topbanner4.jpg';
+import banner1 from '../../assets/HomeImg/topbanner1.webp';
+import banner2 from '../../assets/HomeImg/topbanner2.webp';
+import banner3 from '../../assets/HomeImg/topbanner3.webp';
+import banner4 from '../../assets/HomeImg/topbanner4.webp';
 // Import mobile-optimized images
-import banner1Mobile from '../../assets/HomeImg/topbanner1mobile.jpg';
-import banner2Mobile from '../../assets/HomeImg/topbanner2mobile.jpg';
-import banner3Mobile from '../../assets/HomeImg/topbanner3mobile.jpg';
-import banner4Mobile from '../../assets/HomeImg/topbanner4mobile.jpg';
+import banner1Mobile from '../../assets/HomeImg/topbanner1mobile.webp';
+import banner2Mobile from '../../assets/HomeImg/topbanner2mobile.webp';
+import banner3Mobile from '../../assets/HomeImg/topbanner3mobile.webp';
+import banner4Mobile from '../../assets/HomeImg/topbanner4mobile.webp';
 
 export default function BannerCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
