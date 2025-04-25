@@ -334,7 +334,7 @@ const ContactForm = ({
             </h2>
             
             <div className="space-y-6">
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start space-x-4 rounded-md hover:bg-lightPink transition-all duration-300">
                 <div className="flex-shrink-0">
                   <div className="w-10 h-10 rounded-full bg-lightPink flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-maroon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -345,11 +345,11 @@ const ContactForm = ({
                 </div>
                 <div>
                   <h3 className="font-semibold text-darkBrown">Address</h3>
-                  <p className="mt-1 text-gray-600">{address}</p>
+                  <p className="mt-1 text-gray-600 cursor-pointer">{address}</p>
                 </div>
               </div>
               
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start space-x-4 rounded-md hover:bg-lightPink transition-all duration-300">
                 <div className="flex-shrink-0">
                   <div className="w-10 h-10 rounded-full bg-lightPink flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-maroon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -359,11 +359,11 @@ const ContactForm = ({
                 </div>
                 <div>
                   <h3 className="font-semibold text-darkBrown">Mobile Number</h3>
-                  <p className="mt-1 text-gray-600">{phoneNumber}</p>
+                  <p className="mt-1 text-gray-600 cursor-pointer">{phoneNumber}</p>
                 </div>
               </div>
               
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start space-x-4 rounded-md hover:bg-lightPink transition-all duration-300">
                 <div className="flex-shrink-0">
                   <div className="w-10 h-10 rounded-full bg-lightPink flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-maroon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -373,7 +373,7 @@ const ContactForm = ({
                 </div>
                 <div>
                   <h3 className="font-semibold text-darkBrown">Email</h3>
-                  <p className="mt-1 text-gray-600">{email}</p>
+                  <p className="mt-1 text-gray-600 cursor-pointer">{email}</p>
                 </div>
               </div>
               
