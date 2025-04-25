@@ -5,6 +5,10 @@ import App from './App.jsx'
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // Import AOS styles
 
+import '@fontsource/comic-neue';
+import '@fontsource/comic-neue/400-italic.css';
+import '@fontsource/comic-neue/700.css';
+
 // Initialize AOS globally
 AOS.init();
 
