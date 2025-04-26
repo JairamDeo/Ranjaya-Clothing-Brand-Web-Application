@@ -10,7 +10,11 @@ import '@fontsource/comic-neue/400-italic.css';
 import '@fontsource/comic-neue/700.css';
 
 // Initialize AOS globally
-AOS.init();
+AOS.init({
+  duration: 800,
+  once: false, // Set to false to animate elements each time they enter the viewport
+  easing: 'ease-in-out'
+});
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

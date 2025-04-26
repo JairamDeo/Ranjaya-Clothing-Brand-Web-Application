@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 // Assuming these images are in your assets folder
 import collection1Img from '../../assets/HomeImg/trendingcollection1.webp';
@@ -18,31 +16,36 @@ export default function HomeSection2({
       id: 1,
       name: "UNSTITCHED SUIT",
       image: collection1Img || "/api/placeholder/213/350", // Fallback to placeholder if import fails
-      path: "/collection/unsticked-suit"
+      path: "/collection/unsticked-suit",
+      AosDuration: "1000"
     },
     {
       id: 2,
       name: "NAZAAKAT",
       image: collection2Img || "/api/placeholder/213/350",
-      path: "/collection/nazakat"
+      path: "/collection/nazakat",
+      AosDuration: "1500"
     },
     {
       id: 3,
       name: "SHOR-SHARABA",
       image: collection3Img || "/api/placeholder/213/350",
-      path: "/collection/shor-sharaba"
+      path: "/collection/shor-sharaba",
+      AosDuration: "2000"
     },
     {
       id: 4,
       name: "SPRING-FLING",
       image: collection4Img || "/api/placeholder/213/350",
-      path: "/collection/spring-fling"
+      path: "/collection/spring-fling",
+      AosDuration: "2500"
     },
     {
       id: 5,
       name: "RUT-BAHAR",
       image: collection5Img || "/api/placeholder/213/350",
-      path: "/collection/rut-bahar"
+      path: "/collection/rut-bahar",
+      AosDuration: "3000"
     }
   ]
 }) {
@@ -51,14 +54,6 @@ export default function HomeSection2({
   const touchEndX = useRef(0);
   const carouselRef = useRef(null);
 
-  // Initialize AOS
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      once: true,
-      easing: 'ease-in-out'
-    });
-  }, []);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? collections.length - 1 : prev - 1));
@@ -182,6 +177,7 @@ function CollectionBox({ collection, index }) {
       className="w-full max-w-[213px] h-[400px] flex flex-col group"
       data-aos="fade-up"
       data-aos-delay={100 + (index * 50)}
+      data-aos-duration={collection.AosDuration}
     >
       <div className="flex-grow overflow-hidden bg-lightPink rounded mb-3">
         <img 

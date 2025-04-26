@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 // Import product images from assets folder
 import product1 from '../../assets/HomeImg/Ranjayafavimg1.webp';
@@ -18,14 +16,6 @@ export default function HomeSection4() {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef(null);
   
-  // Initialize AOS
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      once: true,
-      easing: 'ease-in-out'
-    });
-  }, []);
   
   // Products data
   const products = [
