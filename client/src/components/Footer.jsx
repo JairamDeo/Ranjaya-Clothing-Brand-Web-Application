@@ -54,7 +54,7 @@ const Footer = () => {
         {/* Main Footer Content - Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Logo and About Column */}
-          <div className="space-y-4">
+          <div className="space-y-4" data-aos="fade-right" data-aos-duration="1500">
             <Link to="/" className="inline-block transform transition-transform duration-300 hover:scale-105">
               <img src={Logo} alt="Ranjaya" className="h-16" />
             </Link>
@@ -71,6 +71,8 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   aria-label={social.label}
                   className={`bg-cream text-maroon ${social.hoverColor} hover:text-white p-2 rounded-full transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg`}
+                  data-aos="flip-right"
+                  data-aos-duration={2500 + (index * 200)}
                 >
                   {social.icon}
                 </a>
@@ -80,7 +82,12 @@ const Footer = () => {
 
           {/* Footer Link Columns */}
           {footerLinks.map((column, index) => (
-            <div key={index} className="space-y-4">
+            <div 
+              key={index} 
+              className="space-y-4"
+              data-aos="fade-up"
+              data-aos-duration={1500 + ((index + 1) * 500)}
+            >
               <h3 className="font-medium text-maroon tracking-wide text-lg relative inline-block">
                 {column.title}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-maroon transition-all duration-300 group-hover:w-full"></span>
@@ -125,27 +132,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
-        {/* Newsletter Subscription */}
-        {/* <div className="border-t border-maroon-20 py-6">
-          <div className="max-w-lg mx-auto">
-            <h3 className="text-center text-maroon font-medium mb-3">Subscribe to our newsletter</h3>
-            <form className="flex flex-col sm:flex-row gap-2">
-              <input 
-                type="email" 
-                placeholder="Your email address" 
-                className="flex-grow px-3 py-2 border border-maroon-20 focus:border-maroon focus:ring-1 focus:ring-maroon outline-none rounded-md bg-cream transition-all duration-300"
-                required
-              />
-              <button 
-                type="submit" 
-                className="bg-maroon hover:bg-darkMaroon text-cream px-4 py-2 rounded-md transition-all duration-300 font-medium transform hover:scale-105 hover:shadow-md"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </div> */}
 
         {/* Copyright Bar */}
         <div className="border-t border-maroon-20 pt-6 text-center text-sm text-darkBrown">
