@@ -82,6 +82,7 @@ export default function BannerCarousel() {
   // Handle touch events for mobile swipe
   const handleTouchStart = (e) => {
     setTouchStart(e.touches[0].clientX);
+    setTouchEnd(e.touches[0].clientX); // Initialize touchEnd to prevent issues
   };
 
   const handleTouchMove = (e) => {
@@ -121,15 +122,15 @@ export default function BannerCarousel() {
               <img 
                 src={image.mobile} 
                 alt={`Banner image ${index + 1}`}
-                className="w-full md:hidden object-cover"
-                style={{ height: '680px' }}
+                className="w-full md:hidden object-fit" 
+                style={{ height: '400px' }} // Taller fixed height for mobile
               />
               
               {/* Desktop image - hidden on mobile */}
               <img 
                 src={image.desktop} 
                 alt={`Banner image ${index + 1}`}
-                className="w-full hidden md:block object-cover" 
+                className="w-full hidden md:block object-fit" 
                 style={{ height: '680px' }}
               />
               
