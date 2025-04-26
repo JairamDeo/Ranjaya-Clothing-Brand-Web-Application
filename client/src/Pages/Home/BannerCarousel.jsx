@@ -148,7 +148,7 @@ export default function BannerCarousel() {
       {/* Navigation Arrows */}
       <button 
         onClick={prevSlide}
-        className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-cream bg-opacity-50 hover:bg-opacity-70 text-maroon p-1 sm:p-2 rounded-full focus:outline-none transition-all duration-300"
+        className="absolute left-2 sm:left-4 md:left-6 lg:left-12 top-1/2 transform -translate-y-1/2 bg-cream bg-opacity-50 hover:bg-opacity-70 text-maroon p-1 sm:p-2 rounded-full focus:outline-none transition-all duration-300"
         aria-label="Previous slide"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -158,7 +158,7 @@ export default function BannerCarousel() {
       
       <button 
         onClick={nextSlide}
-        className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-cream bg-opacity-50 hover:bg-opacity-70 text-maroon p-1 sm:p-2 rounded-full focus:outline-none transition-all duration-300"
+        className="absolute right-2 sm:right-4 md:right-6 lg:right-12 top-1/2 transform -translate-y-1/2 bg-cream bg-opacity-50 hover:bg-opacity-70 text-maroon p-1 sm:p-2 rounded-full focus:outline-none transition-all duration-300"
         aria-label="Next slide"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
