@@ -101,6 +101,9 @@ export default function HomeSection2({
           className="hidden md:flex justify-center gap-2 lg:gap-3 mb-8"
           data-aos="fade-up"
           data-aos-delay="100"
+          ref={carouselRef}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           {collections.map((collection, index) => (
             <CollectionBox 
