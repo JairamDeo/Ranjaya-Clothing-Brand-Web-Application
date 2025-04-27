@@ -50,7 +50,7 @@ const HomeSection6 = () => {
       <div className="container mx-auto px-4 md:px-6 lg:px-12">
         <h2 
           className="text-center text-darkBrown text-3xl md:text-4xl font-semibold mb-8"
-          data-aos="fade-up"
+          data-aos="fade-down"
         >
           SHOP THE LOOK
         </h2>

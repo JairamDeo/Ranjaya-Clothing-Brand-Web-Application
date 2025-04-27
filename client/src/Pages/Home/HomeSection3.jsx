@@ -153,7 +153,7 @@ export default function HomeSection3() {
         {/* Section Heading */}
         <h2 
           className="text-center text-darkBrown text-3xl md:text-4xl font-semibold mb-8"
-          data-aos="fade-up"
+          data-aos="fade-down"
         >
           FEATURED COLLECTION
         </h2>
