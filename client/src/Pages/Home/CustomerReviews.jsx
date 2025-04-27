@@ -37,7 +37,7 @@ const reviewsData = [
     },
     {
         id: 5,
-        stars: 5,
+        stars: 3,
         highlight: "Exceeded expectations! 🌟",
         text: "The craftsmanship is remarkable. Worth every penny.",
         reviewer: "Emma Thompson",
@@ -61,7 +61,7 @@ const reviewsData = [
     },
     {
         id: 8,
-        stars: 5,
+        stars: 3,
         highlight: "A dream come true! 💭",
         text: "I've been looking for something like this for ages. So happy with my purchase.",
         reviewer: "Raj Malhotra",
@@ -82,8 +82,19 @@ const reviewsData = [
         text: "The quality and design are outstanding. Can't wait to order more.",
         reviewer: "Ahmed Hassan",
         image: "/api/placeholder/50/50"
-    }
+    }    
+    
 ];
+
+// Sort reviews by stars (descending) and then by id (ascending) if stars are equal
+const sortedReviewsData = [...reviewsData].sort((a, b) => {
+    // First sort by stars (highest first)
+    if (b.stars !== a.stars) {
+        return b.stars - a.stars;
+    }
+    // If stars are equal, sort by id (lowest first)
+    return a.id - b.id;
+});
 
 // Individual review card component
 const ReviewCard = ({ review }) => {
@@ -147,7 +158,7 @@ export default function CustomerReviews() {
     };
 
     const itemsToShow = getItemsToShow();
-    const totalSlides = Math.ceil(reviewsData.length / itemsToShow);
+    const totalSlides = Math.ceil(sortedReviewsData.length / itemsToShow);
 
     // Navigation functions
     const goToNextSlide = () => {
@@ -210,7 +221,7 @@ export default function CustomerReviews() {
 
     // Calculate which reviews to show in the current slide
     const startIndex = currentIndex * itemsToShow;
-    const visibleReviews = reviewsData.slice(startIndex, startIndex + itemsToShow);
+    const visibleReviews = sortedReviewsData.slice(startIndex, startIndex + itemsToShow);
 
     return (
         <div className="bg-cream py-12 px-4 md:px-6 lg:px-12">
@@ -222,7 +233,7 @@ export default function CustomerReviews() {
             </h2>
 
             <p className="text-center text-darkBrown mb-10">
-                {reviewsData.length} reviews from satisfied customers
+                {sortedReviewsData.length} reviews from satisfied customers
             </p>
 
             <div className="relative max-w-6xl mx-auto">
@@ -252,7 +263,7 @@ export default function CustomerReviews() {
 
                         {Array.from({ length: totalSlides }).map((_, slideIndex) => {
                             const slideStartIndex = slideIndex * itemsToShow;
-                            const slideReviews = reviewsData.slice(slideStartIndex, slideStartIndex + itemsToShow);
+                            const slideReviews = sortedReviewsData.slice(slideStartIndex, slideStartIndex + itemsToShow);
 
                             return (
                                 <div
