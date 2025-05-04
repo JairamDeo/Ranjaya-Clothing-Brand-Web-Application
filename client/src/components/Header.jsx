@@ -7,6 +7,8 @@ import Logo from '../assets/Logo.png';
 import SearchBar from './SearchBar';
 // Import CategoryDrawer component
 import CategoryDrawer from './CategoryDrawer';
+// Import CartComponent
+import CartComponent from '../Pages/CartComponent';
 
 const Header = () => {
   const location = useLocation();
@@ -150,9 +152,9 @@ const Header = () => {
             </div>
 
             {/* Shopping Bag Icon */}
-            <Link to="/cart" className="text-[#993f3c] hover:bg-[#f5e8e8] p-2 rounded-full transition-all">
-              <ShoppingBag className="h-5 w-5" />
-            </Link>
+            <div className="cart-button">
+              <CartComponent />
+            </div>
 
             {/* User Account Icon */}
             <Link to="/account" className="text-[#993f3c] hover:bg-[#f5e8e8] p-2 rounded-full transition-all">
@@ -295,10 +297,13 @@ const Header = () => {
               <User className="h-5 w-5 mx-auto mb-1" />
               <span className="text-sm">Account</span>
             </Link>
-            <Link to="/cart" className="text-center text-[#4a3e3e] hover:text-[#993f3c]" onClick={() => setMobileMenuOpen(false)}>
-              <ShoppingBag className="h-5 w-5 mx-auto mb-1" />
-              <span className="text-sm">Cart</span>
-            </Link>
+            {/* Shopping Bag Icon cart button */}
+            <div className="text-center text-[#4a3e3e] hover:text-[#993f3c]" onClick={() => setMobileMenuOpen(false)}>
+              <div className="cart-button-mobile">
+                <ShoppingBag className="h-5 w-5 mx-auto mb-1" />
+                <span className="text-sm">Cart</span>
+              </div>
+            </div>
             <Link to="/search" className="text-center text-[#4a3e3e] hover:text-[#993f3c]" onClick={() => setMobileMenuOpen(false)}>
               <Search className="h-5 w-5 mx-auto mb-1" />
               <span className="text-sm">Search</span>
@@ -329,4 +334,4 @@ const Header = () => {
   );
 };
 
-export default Header;      
+export default Header;
