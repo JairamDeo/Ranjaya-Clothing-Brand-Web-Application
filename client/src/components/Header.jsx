@@ -8,7 +8,7 @@ import SearchBar from './SearchBar';
 // Import CategoryDrawer component
 import CategoryDrawer from './CategoryDrawer';
 // Import CartComponent
-import CartComponent from '../Pages/CartComponent';
+import CartComponent from './CartComponent';
 
 const Header = () => {
   const location = useLocation();

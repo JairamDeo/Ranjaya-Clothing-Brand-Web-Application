@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
-import { X, ChevronUp, ChevronDown, ShoppingBag, Trash2, ArrowRight, Tag } from 'lucide-react';
+import { X, ChevronUp, ChevronDown, ShoppingBag, Trash2, ArrowRight, Tag, CheckSquare, Square } from 'lucide-react';
+
+/*Delivery Animation*/
+import Delivery from "../assets/delivery-animation.gif"
 
 // Mock data (will be replaced with actual backend data)
 const initialCartItems = [
@@ -10,7 +13,8 @@ const initialCartItems = [
     quantity: 1,
     image: "/api/placeholder/120/140",
     size: "M",
-    color: "Maroon"
+    color: "Maroon",
+    selectedForCheckout: true
   },
   {
     id: 2,
@@ -19,7 +23,8 @@ const initialCartItems = [
     quantity: 1,
     image: "/api/placeholder/120/140",
     size: "Free Size",
-    color: "Cream"
+    color: "Cream",
+    selectedForCheckout: true
   },
   {
     id: 3,
@@ -28,7 +33,8 @@ const initialCartItems = [
     quantity: 1,
     image: "/api/placeholder/120/140",
     size: "Free Size",
-    color: "Cream"
+    color: "Cream",
+    selectedForCheckout: true
   },
   {
     id: 4,
@@ -37,9 +43,17 @@ const initialCartItems = [
     quantity: 1,
     image: "/api/placeholder/120/140",
     size: "Free Size",
-    color: "Cream"
+    color: "Cream",
+    selectedForCheckout: true
   }
 ];
+
+// Available sizes for different product types
+const availableSizes = {
+  'letter': ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+  'numeric': ['36', '38', '40', '42', '44', '46'],
+  'freeSize': ['Free Size']
+};
 
 export default function CartComponent() {
   const [cartItems, setCartItems] = useState(initialCartItems);
@@ -50,9 +64,12 @@ export default function CartComponent() {
   const [discount, setDiscount] = useState(0);
   const [couponApplied, setCouponApplied] = useState(false);
   const [couponError, setCouponError] = useState('');
+  const [activeSizeSelector, setActiveSizeSelector] = useState(null);
+  const [sizeFormat, setSizeFormat] = useState('letter'); // 'letter' or 'numeric'
 
-  // Calculate subtotal, shipping, and total
-  const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  // Calculate subtotal, shipping, and total for selected items only
+  const selectedItems = cartItems.filter(item => item.selectedForCheckout);
+  const subtotal = selectedItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   const shipping = subtotal > 0 ? 199 : 0;
   const total = subtotal + shipping - discount;
 
@@ -80,6 +97,7 @@ export default function CartComponent() {
   // Toggle cart visibility
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
+    setActiveSizeSelector(null); // Close size selector when closing cart
   };
 
   // Apply coupon code
@@ -110,8 +128,36 @@ export default function CartComponent() {
     setCouponError('');
   };
 
+  // Toggle size selector
+  const toggleSizeSelector = (id) => {
+    setActiveSizeSelector(activeSizeSelector === id ? null : id);
+  };
+
+  // Update size
+  const updateSize = (id, newSize) => {
+    setCartItems(cartItems.map(item => 
+      item.id === id ? { ...item, size: newSize } : item
+    ));
+    setActiveSizeSelector(null); // Close selector after selection
+  };
+
+  // Toggle item selection for checkout
+  const toggleItemSelection = (id) => {
+    setCartItems(cartItems.map(item => 
+      item.id === id ? { ...item, selectedForCheckout: !item.selectedForCheckout } : item
+    ));
+
+    // Reset coupon when selection changes
+    setCouponCode('');
+    setDiscount(0);
+    setCouponApplied(false);
+    setCouponError('');
+  };
+
   // Checkout function
   const handleCheckout = () => {
+    if (selectedItems.length === 0) return;
+    
     setIsCheckingOut(true);
     
     // Show delivery animation after a short delay
@@ -122,7 +168,15 @@ export default function CartComponent() {
       setTimeout(() => {
         setDeliveryAnimation(false);
         setIsCheckingOut(false);
-        // In a real app, you would send the cart data to backend here
+        
+        // Remove checked out items
+        setCartItems(cartItems.filter(item => !item.selectedForCheckout));
+        
+        // Reset coupon
+        setCouponCode('');
+        setDiscount(0);
+        setCouponApplied(false);
+        setCouponError('');
       }, 3000);
     }, 500);
   };
@@ -136,6 +190,39 @@ export default function CartComponent() {
     }).format(price);
   };
 
+  // Toggle selection for all items
+  const toggleSelectAll = (selectAll) => {
+    setCartItems(cartItems.map(item => ({
+      ...item,
+      selectedForCheckout: selectAll
+    })));
+    
+    // Reset coupon when selection changes
+    setCouponCode('');
+    setDiscount(0);
+    setCouponApplied(false);
+    setCouponError('');
+  };
+  
+  // Check if all items are selected
+  const areAllItemsSelected = cartItems.length > 0 && cartItems.every(item => item.selectedForCheckout);
+  
+  // Determine size options for each product
+  const getSizeOptions = (item) => {
+    // For sarees, always return free size
+    if (item.name.toLowerCase().includes('saree')) {
+      return availableSizes.freeSize;
+    }
+    
+    // For other items, return based on the selected format
+    return availableSizes[sizeFormat];
+  };
+  
+  // Toggle between letter and numeric size formats
+  const toggleSizeFormat = () => {
+    setSizeFormat(sizeFormat === 'letter' ? 'numeric' : 'letter');
+  };
+
   // Close cart when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -143,12 +230,28 @@ export default function CartComponent() {
           !event.target.closest('.cart-sidebar') && 
           !event.target.closest('.cart-button')) {
         setIsCartOpen(false);
+        setActiveSizeSelector(null);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isCartOpen]);
+
+  // Close size selector when clicking outside
+  useEffect(() => {
+    if (activeSizeSelector === null) return;
+    
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.size-selector') && 
+          !event.target.closest('.size-display')) {
+        setActiveSizeSelector(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [activeSizeSelector]);
 
   return (
     <div className="relative">
@@ -212,80 +315,143 @@ export default function CartComponent() {
                 </button>
               </div>
             ) : (
-              <ul className="divide-y divide-maroon-20">
-                {cartItems.map(item => (
-                  <li key={item.id} className="py-4">
-                    <div className="flex items-start space-x-4">
-                      {/* Product Image */}
-                      <div className="w-24 h-28 bg-lightPink rounded overflow-hidden flex-shrink-0">
-                        <img 
-                          src={item.image} 
-                          alt={item.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      
-                      {/* Product Info */}
-                      <div className="flex-grow">
-                        <h3 className="font-medium text-darkBrown">{item.name}</h3>
-                        <div className="mt-1 text-sm text-darkBrown opacity-70">
-                          <p>Size: {item.size}</p>
-                          <p>Color: {item.color}</p>
+              <>
+                {/* Select All Checkbox */}
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-maroon-20">
+                  <div 
+                    className="flex items-center cursor-pointer"
+                    onClick={() => toggleSelectAll(!areAllItemsSelected)}
+                  >
+                    {areAllItemsSelected ? (
+                      <CheckSquare size={18} className="text-maroon mr-2" />
+                    ) : (
+                      <Square size={18} className="text-maroon mr-2" />
+                    )}
+                    <span className="text-darkBrown font-medium">{areAllItemsSelected ? 'Deselect All' : 'Select All'}</span>
+                  </div>
+                  
+                  {/* Toggle Size Format */}
+                  {!cartItems.every(item => item.name.toLowerCase().includes('saree')) && (
+                    <button
+                      className="text-sm text-maroon hover:text-darkMaroon font-medium"
+                      onClick={toggleSizeFormat}
+                    >
+                      {sizeFormat === 'letter' ? 'Switch to Numeric Sizes' : 'Switch to Letter Sizes'}
+                    </button>
+                  )}
+                </div>
+                
+                <ul className="divide-y divide-maroon-20">
+                  {cartItems.map(item => (
+                    <li key={item.id} className="py-4">
+                      <div className="flex items-start space-x-4">
+                        {/* Checkout Selection Checkbox */}
+                        <div 
+                          className="flex items-center pt-2 cursor-pointer"
+                          onClick={() => toggleItemSelection(item.id)}
+                        >
+                          {item.selectedForCheckout ? (
+                            <CheckSquare size={18} className="text-maroon" />
+                          ) : (
+                            <Square size={18} className="text-maroon" />
+                          )}
                         </div>
-                        <div className="mt-2 flex justify-between items-center">
-                          {/* Quantity Selector */}
-                          <div className="flex items-center border border-maroon-20 rounded">
-                            <button 
-                              className="p-1 text-maroon hover:bg-lightPink"
-                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              aria-label="Decrease quantity"
-                            >
-                              <ChevronDown size={16} />
-                            </button>
-                            <span className="px-3 py-1 text-darkBrown">
-                              {item.quantity}
-                            </span>
-                            <button 
-                              className="p-1 text-maroon hover:bg-lightPink"
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              aria-label="Increase quantity"
-                            >
-                              <ChevronUp size={16} />
-                            </button>
+                        
+                        {/* Product Image */}
+                        <div className="w-24 h-28 bg-lightPink rounded overflow-hidden flex-shrink-0">
+                          <img 
+                            src={item.image} 
+                            alt={item.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      
+                        {/* Product Info */}
+                        <div className="flex-grow">
+                          <h3 className="font-medium text-darkBrown">{item.name}</h3>
+                          <div className="mt-1 text-sm text-darkBrown">
+                            {/* Size with dropdown */}
+                            <div className="relative">
+                              <div 
+                                className="size-display flex items-center cursor-pointer font-medium text-maroon"
+                                onClick={() => toggleSizeSelector(item.id)}
+                              >
+                                <span>Size: {item.size}</span>
+                                <ChevronDown size={14} className="ml-1" />
+                              </div>
+                              {activeSizeSelector === item.id && (
+                                <div className="size-selector absolute z-10 mt-2 bg-cream border border-maroon rounded shadow-custom py-1 max-h-32 overflow-y-auto w-40">
+                                  {getSizeOptions(item).map(size => (
+                                    <div 
+                                      key={size}
+                                      className={`px-4 py-2 cursor-pointer hover:bg-lightPink text-darkBrown ${item.size === size ? 'bg-lightPink text-maroon font-medium' : ''}`}
+                                      onClick={() => updateSize(item.id, size)}
+                                    >
+                                      {size}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                            <p>Color: {item.color}</p>
                           </div>
-                          
-                          {/* Price */}
-                          <div className="text-right">
-                            <p className="font-medium text-darkBrown">
-                              {formatPrice(item.price * item.quantity)}
-                            </p>
-                            {item.quantity > 1 && (
-                              <p className="text-xs text-darkBrown opacity-70">
-                                {formatPrice(item.price)} each
+                          <div className="mt-2 flex justify-between items-center gap-2">
+                            {/* Quantity Selector */}
+                            <div className="flex items-center border border-maroon-20 rounded">
+                              <button 
+                                className="p-1 text-maroon hover:bg-lightPink"
+                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                aria-label="Decrease quantity"
+                              >
+                                <ChevronDown size={16} />
+                              </button>
+                              <span className="px-3 py-1 text-darkBrown">
+                                {item.quantity}
+                              </span>
+                              <button 
+                                className="p-1 text-maroon hover:bg-lightPink"
+                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                aria-label="Increase quantity"
+                              >
+                                <ChevronUp size={16} />
+                              </button>
+                            </div>
+                            
+                            {/* Price */}
+                            <div className="text-right">
+                              <p className="font-medium text-darkBrown">
+                                {formatPrice(item.price * item.quantity)}
                               </p>
-                            )}
+                            </div>
                           </div>
                         </div>
+                        
+                        {/* Remove Button */}
+                        <button 
+                          className="p-1 text-maroon hover:bg-lightPink rounded-full transition-all"
+                          onClick={() => removeItem(item.id)}
+                          aria-label="Remove item"
+                        >
+                          <Trash2 size={16} />
+                        </button>
                       </div>
-                      
-                      {/* Remove Button */}
-                      <button 
-                        className="p-1 text-maroon hover:bg-lightPink rounded-full transition-all"
-                        onClick={() => removeItem(item.id)}
-                        aria-label="Remove item"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                    </li>
+                  ))}
+                </ul>
+              </>
             )}
           </div>
           
           {/* Cart Summary */}
           {cartItems.length > 0 && (
             <div className="border-t border-maroon-20 px-4 md:px-6 py-4 bg-cream shadow-custom">
+              {/* Selected Items Count */}
+              {selectedItems.length < cartItems.length && (
+                <div className="mb-3 text-sm text-darkBrown">
+                  <p>{selectedItems.length} of {cartItems.length} items selected for checkout</p>
+                </div>
+              )}
+              
               {/* Coupon Code Section */}
               <div className="mb-3 pb-3 border-b border-maroon-20">
                 <div className="flex items-center space-x-2">
@@ -301,7 +467,7 @@ export default function CartComponent() {
                         value={couponCode}
                         onChange={(e) => setCouponCode(e.target.value)}
                         className="flex-grow px-3 py-1 text-sm border border-maroon-20 rounded-l focus:outline-none focus:border-maroon"
-                        disabled={couponApplied}
+                        disabled={couponApplied || selectedItems.length === 0}
                       />
                       {couponApplied ? (
                         <button
@@ -314,7 +480,7 @@ export default function CartComponent() {
                         <button
                           onClick={applyCoupon}
                           className="px-3 py-1 text-xs bg-maroon text-cream font-medium rounded-r hover:bg-darkMaroon transition-colors"
-                          disabled={!couponCode}
+                          disabled={!couponCode || selectedItems.length === 0}
                         >
                           Apply
                         </button>
@@ -357,9 +523,9 @@ export default function CartComponent() {
               
               {/* Checkout Button */}
               <button 
-                className="w-full mt-4 py-3 bg-maroon text-cream rounded font-medium hover:bg-darkMaroon transition-all flex items-center justify-center relative overflow-hidden"
+                className={`w-full mt-4 py-3 ${selectedItems.length > 0 ? 'bg-maroon text-cream hover:bg-darkMaroon' : 'bg-gray-300 text-gray-500 cursor-not-allowed'} rounded font-medium transition-all flex items-center justify-center relative overflow-hidden`}
                 onClick={handleCheckout}
-                disabled={isCheckingOut}
+                disabled={isCheckingOut || selectedItems.length === 0}
               >
                 {isCheckingOut ? (
                   <div className="flex items-center">
@@ -368,7 +534,7 @@ export default function CartComponent() {
                   </div>
                 ) : (
                   <>
-                    <span>Checkout</span>
+                    <span>Checkout {selectedItems.length > 0 ? `(${selectedItems.length} items)` : ''}</span>
                     <ArrowRight size={16} className="ml-2" />
                   </>
                 )}
@@ -378,24 +544,24 @@ export default function CartComponent() {
         </div>
       </div>
 
-      {/* Delivery Animation */}
+      {/* Delivery Animation - Using GIF from assets */}
       {deliveryAnimation && (
         <div className="fixed inset-0 bg-cream bg-opacity-95 z-50 flex flex-col items-center justify-center">
-          <div className="relative w-64 h-32">
-            {/* Animated delivery scooter */}
-            <div className="absolute animate-delivery-scooter h-16 w-16">
-              <div className="w-16 h-16 bg-maroon rounded-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-cream w-10 h-10">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.5v15m7.5-7.5h-15m15 0C19.167 12 19.167 4.5 12 4.5 4.833 4.5 4.833 12 12 12z" />
-                </svg>
-              </div>
-            </div>
-            
-            {/* Road */}
-            <div className="absolute bottom-0 left-0 right-0 h-2 bg-darkBrown bg-opacity-20 rounded-full"></div>
+          <div className="relative w-64 h-40">
+            {/* Delivery GIF from assets folder */}
+            <img
+              src={Delivery} 
+              alt="Delivery in progress" 
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                // Fallback if GIF not found
+                e.target.onerror = null;
+                e.target.src = "/api/placeholder/250/150";
+              }}
+            />
           </div>
           
-          <h3 className="mt-8 text-xl font-medium text-maroon">Your order is on the way!</h3>
+          <h3 className="mt-4 text-xl font-medium text-maroon">Your order is on the way!</h3>
           <p className="mt-2 text-darkBrown">Thank you for shopping with Ranjaya</p>
           
           <button 
@@ -404,24 +570,12 @@ export default function CartComponent() {
               setDeliveryAnimation(false);
               setIsCheckingOut(false);
               setIsCartOpen(false);
-              setCartItems([]);
             }}
           >
             Continue Shopping
           </button>
         </div>
       )}
-
-      <style jsx>{`
-        @keyframes delivery-scooter {
-          0% { transform: translateX(-50px) }
-          50% { transform: translateX(150px) }
-          100% { transform: translateX(300px) }
-        }
-        .animate-delivery-scooter {
-          animation: delivery-scooter 3s ease-in-out;
-        }
-      `}</style>
     </div>
   );
 }

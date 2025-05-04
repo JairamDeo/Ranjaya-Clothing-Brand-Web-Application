@@ -2,3 +2,14 @@
   overflow-x: hidden;
   overflow-y: hidden;
 }
+
+/* CSS For Cart Component Delivery Animation Start */
+@keyframes delivery-scooter {
+  0% { transform: translateX(-50px) }
+  50% { transform: translateX(150px) }
+  100% { transform: translateX(300px) }
+}
+.animate-delivery-scooter {
+  animation: delivery-scooter 3s ease-in-out;
+}
+/* End */
