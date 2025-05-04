@@ -187,14 +187,13 @@ function CollectionBox({ collection, index }) {
         />
       </div>
       
-      {/* Collection Name Button */}
-      <Link 
-        to={collection.path}
+      {/* Collection Name Styled Like a Button (but not a link anymore) */}
+      <div 
         className="w-full py-2 px-3 bg-maroon text-cream rounded hover:bg-darkMaroon transition-colors font-medium flex items-center justify-center gap-2"
       >
         <span>{collection.name}</span>
         <ArrowRight size={16} className="inline-block" />
-      </Link>
+      </div>
     </Link>
   );
 }
