@@ -7,7 +7,6 @@ import collection1Img from '../../assets/HomeImg/trendingcollection1.webp';
 import collection2Img from '../../assets/HomeImg/trendingcollection2.webp';
 import collection3Img from '../../assets/HomeImg/trendingcollection3.webp';
 import collection4Img from '../../assets/HomeImg/trendingcollection4.webp';
-import collection5Img from '../../assets/HomeImg/trendingcollection5.webp';
 
 export default function HomeSection2({ 
   title = "New Trending Collection!",
@@ -39,13 +38,6 @@ export default function HomeSection2({
       image: collection4Img || "/api/placeholder/213/350",
       path: "/collection/spring-fling",
       AosDuration: "2500"
-    },
-    {
-      id: 5,
-      name: "RUT-BAHAR",
-      image: collection5Img || "/api/placeholder/213/350",
-      path: "/collection/rut-bahar",
-      AosDuration: "3000"
     }
   ]
 }) {

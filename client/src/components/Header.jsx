@@ -95,7 +95,6 @@ const Header = () => {
     { name: "BEST SELLERS", path: "/best-sellers", hasDropdown: false },
     { name: "ABOUT US", path: "/about-us", hasDropdown: false },
     { name: "CONTACT US", path: "/contact-us", hasDropdown: false },
-    { name: "CLEARANCE SALE", path: "/clearance-sale", hasDropdown: false },
   ];
 
   // Toggle category drawer

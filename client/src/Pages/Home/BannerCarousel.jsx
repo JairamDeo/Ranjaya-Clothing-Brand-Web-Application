@@ -2,13 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 // Import desktop images
 import banner1 from '../../assets/HomeImg/topbanner1.webp';
 import banner2 from '../../assets/HomeImg/topbanner2.webp';
-import banner3 from '../../assets/HomeImg/topbanner3.webp';
-import banner4 from '../../assets/HomeImg/topbanner4.webp';
 // Import mobile-optimized images
 import banner1Mobile from '../../assets/HomeImg/topbanner1mobile.webp';
 import banner2Mobile from '../../assets/HomeImg/topbanner2mobile.webp';
-import banner3Mobile from '../../assets/HomeImg/topbanner3mobile.webp';
-import banner4Mobile from '../../assets/HomeImg/topbanner4mobile.webp';
 
 export default function BannerCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -21,8 +17,6 @@ export default function BannerCarousel() {
   const bannerImages = [
     { desktop: banner1, mobile: banner1Mobile },
     { desktop: banner2, mobile: banner2Mobile },
-    { desktop: banner3, mobile: banner3Mobile },
-    { desktop: banner4, mobile: banner4Mobile }
   ];
 
   // Check screen size for responsive image selection
@@ -167,7 +161,7 @@ export default function BannerCarousel() {
       </button>
 
       {/* Slide Indicator */}
-      <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-cream bg-opacity-50 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm text-darkBrown">
+      <div className="absolute bottom-2 sm:bottom-3 left-1/2 transform -translate-x-1/2 bg-cream bg-opacity-50 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm text-darkBrown">
         {currentSlide + 1}/{bannerImages.length}
       </div>
 

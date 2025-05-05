@@ -3,8 +3,6 @@ import { register } from 'swiper/element/bundle';
 // Import videos directly
 import video1 from '../../assets/HomeImg/video1.webm';
 import video2 from '../../assets/HomeImg/video2.webm';
-import video3 from '../../assets/HomeImg/video3.webm';
-import video4 from '../../assets/HomeImg/video4.webm';
 
 register();
 
@@ -41,8 +39,6 @@ const HomeSection6 = () => {
   const videoItems = [
     { id: 1, title: "Summer Collection", video: video1 },
     { id: 2, title: "Autumn Styles", video: video2 },
-    { id: 3, title: "Winter Essentials", video: video3 },
-    { id: 4, title: "Spring Favorites", video: video4 }
   ];
 
   return (
@@ -55,12 +51,12 @@ const HomeSection6 = () => {
           SHOP THE LOOK
         </h2>
 
-        {/* Desktop View - Row of 4 boxes */}
-        <div className="hidden md:grid md:grid-cols-4 gap-6">
+        {/* Desktop View - Centered 2 boxes */}
+        <div className="hidden md:flex justify-center gap-8">
           {videoItems.map((item) => (
             <div 
               key={item.id}
-              className="relative overflow-hidden rounded-lg shadow-custom h-[468px] transition-transform duration-300 hover:scale-[1.02]"
+              className="relative overflow-hidden rounded-lg shadow-custom h-[468px] w-full max-w-xs lg:max-w-sm transition-transform duration-300 hover:scale-[1.02]"
               data-aos="fade-up"
               data-aos-delay={item.id * 100}
             >
@@ -89,7 +85,7 @@ const HomeSection6 = () => {
           ))}
         </div>
 
-        {/* Mobile View - Swiper Carousel */}
+        {/* Mobile View - Swiper Carousel (unchanged) */}
         <div className="md:hidden">
           <swiper-container 
             ref={swiperRef}
