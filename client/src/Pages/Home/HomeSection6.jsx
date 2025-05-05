@@ -51,12 +51,12 @@ const HomeSection6 = () => {
           SHOP THE LOOK
         </h2>
 
-        {/* Desktop View - Centered 2 boxes */}
-        <div className="hidden md:flex justify-center gap-8">
+        {/* Desktop View - Row of 4 boxes */}
+        <div className="hidden md:grid md:grid-cols-2 gap-6">
           {videoItems.map((item) => (
             <div 
               key={item.id}
-              className="relative overflow-hidden rounded-lg shadow-custom h-[468px] w-full max-w-xs lg:max-w-sm transition-transform duration-300 hover:scale-[1.02]"
+              className=" relative overflow-hidden rounded-lg shadow-custom h-[468px] transition-transform duration-300 hover:scale-[1.02]"
               data-aos="fade-up"
               data-aos-delay={item.id * 100}
             >
@@ -85,7 +85,7 @@ const HomeSection6 = () => {
           ))}
         </div>
 
-        {/* Mobile View - Swiper Carousel (unchanged) */}
+        {/* Mobile View - Swiper Carousel */}
         <div className="md:hidden">
           <swiper-container 
             ref={swiperRef}
