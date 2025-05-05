@@ -97,7 +97,7 @@ const HomeSection6 = () => {
                 <div className="relative overflow-hidden rounded-lg shadow-custom h-[263px]">
                   <div className="w-full h-full">
                     <video 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-fit"
                       autoPlay 
                       muted 
                       loop

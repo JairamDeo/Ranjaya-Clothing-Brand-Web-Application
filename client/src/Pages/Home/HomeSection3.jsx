@@ -1,80 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
-
-// Import product images from assets folder
-import product1 from '../../assets/HomeImg/featuredcollection1.webp';
-import product2 from '../../assets/HomeImg/featuredcollection2.webp';
-import product3 from '../../assets/HomeImg/featuredcollection3.webp';
-import product4 from '../../assets/HomeImg/featuredcollection4.webp';
-import product5 from '../../assets/HomeImg/featuredcollection5.webp';
-import product6 from '../../assets/HomeImg/featuredcollection6.webp';
-import product7 from '../../assets/HomeImg/featuredcollection7.webp';
-import product8 from '../../assets/HomeImg/featuredcollection8.webp';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import ProductCard from '../../components/ProductCard';
 
 export default function HomeSection3() {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef(null);
   
-  
-  // Products data
+  // Products data - This will be replaced with API data from backend
+  // Sample product for development purposes
   const products = [
     {
       id: 1,
-      name: "VANRAAG",
-      price: 1271,
-      image: product1 || "/api/placeholder/300/400",
-      path: "/product/elegant-maroon-suit"
-    },
-    {
-      id: 2,
-      name: "PICHWAI PANKH",
-      price: 1346,
-      image: product2 || "/api/placeholder/300/400",
-      path: "/product/floral-embroidered-dress"
-    },
-    {
-      id: 3,
-      name: "RANG-GULZAR",
-      price: 1271,
-      image: product3 || "/api/placeholder/300/400",
-      path: "/product/traditional-silk-saree"
-    },
-    {
-      id: 4,
-      name: "PANKHURI",
-      price: 1271,
-      image: product4 || "/api/placeholder/300/400",
-      path: "/product/designer-anarkali"
-    },
-    {
-      id: 5,
-      name: "TANA-BANA",
-      price: 2019,
-      image: product5 || "/api/placeholder/300/400",
-      path: "/product/festive-lehenga"
-    },
-    {
-      id: 6,
-      name: "PURPLE PETAL",
-      price: 1866,
-      image: product6 || "/api/placeholder/300/400",
-      path: "/product/classic-chanderi-kurta"
-    },
-    {
-      id: 7,
-      name: "NEELKAMAL",
-      price: 2019,
-      image: product7 || "/api/placeholder/300/400",
-      path: "/product/handcrafted-gown"
-    },
-    {
-      id: 8,
-      name: "Bridal Collection Dress",
-      price: 12999,
-      image: product8 || "/api/placeholder/300/400",
-      path: "/product/bridal-collection-dress"
+      name: "", // Placeholder name come from backend
+      price: null, // Placeholder price come from backend
+      image: "/api/placeholder/300/400", // Placeholder image come from backend
+      path: "/product/featured-product" // Placeholder path
     }
+    
+    // Backend will populate this array with actual products
+    // Additional products will appear in the carousel automatically
   ];
 
   // Calculate items per slide based on screen size
@@ -237,42 +182,5 @@ export default function HomeSection3() {
         </div>
       </div>
     </section>
-  );
-}
-
-function ProductCard({ product }) {
-  return (
-    <Link 
-      to={product.path}
-      className="w-full max-w-[300px] flex flex-col group mb-6"
-    >
-      {/* Product Image */}
-      <div className="w-full h-[400px] overflow-hidden bg-lightPink rounded-t">
-        <img 
-          src={product.image} 
-          alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
-      </div>
-      
-      {/* Product Details */}
-      <div className="p-4 border-x border-b border-maroon-20 rounded-b bg-cream">
-        <h3 className="text-lg font-medium text-darkBrown">{product.name}</h3>
-        <p className="text-maroon font-semibold mt-1">₹{product.price.toLocaleString()}</p>
-        
-        {/* Add to Cart Button */}
-        <button 
-          className="w-full py-2 px-3 bg-maroon text-cream rounded hover:bg-darkMaroon transition-colors font-medium mt-3 flex items-center justify-center gap-2"
-          onClick={(e) => {
-            e.preventDefault();
-            // Add to cart logic would go here
-            console.log(`Added ${product.name} to cart`);
-          }}
-        >
-          <ShoppingCart size={18} />
-          <span>ADD TO CART</span>
-        </button>
-      </div>
-    </Link>
   );
 }

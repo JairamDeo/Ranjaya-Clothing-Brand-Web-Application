@@ -1,52 +1,26 @@
 // src/Pages/New-Arrivals/NewArrivalsSection.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Filter, ChevronDown, ShoppingCart } from 'lucide-react';
+import { Filter, ChevronDown } from 'lucide-react';
+import ProductCard from '../../components/ProductCard';
 
-export default function NewArrivalsSection() {
+export default function NewArrivals() {
   // State for filter and sort
   const [showFilters, setShowFilters] = useState(false);
   const [sortOption, setSortOption] = useState('Best Selling');
   const [showSortOptions, setShowSortOptions] = useState(false);
   
-  // Enhanced product data structure with image field
+  // Enhanced product data structure with placeholder data
+  // This will be replaced with API data from backend
   const [products, setProducts] = useState([
     { 
       id: 1, 
-      name: "VANRAAG", 
-      price: 1271,
-      image: "/api/placeholder/300/400" // This will be replaced with actual image path from DB
-    },
-    { 
-      id: 2, 
-      name: "PICHWAI PANKH", 
-      price: 1346,
-      image: "/api/placeholder/300/400" 
-    },
-    { 
-      id: 3, 
-      name: "RANG-GULZAR", 
-      price: 1271,
-      image: "/api/placeholder/300/400" 
-    },
-    { 
-      id: 4, 
-      name: "PANKHURI", 
-      price: 1271,
-      image: "/api/placeholder/300/400" 
-    },
-    { 
-      id: 5, 
-      name: "TANA-BANA", 
-      price: 2019,
-      image: "/api/placeholder/300/400" 
-    },
-    { 
-      id: 6, 
-      name: "PURPLE PETAL", 
-      price: 1866,
-      image: "/api/placeholder/300/400" 
+      name: "", // Placeholder name come from backend
+      price: null, // Placeholder price come from backend
+      image: "/api/placeholder/300/400", // Placeholder image come from backend
+      path: "/product/new-arrival" // Placeholder path
     }
+    // Backend will populate this array with actual products
   ]);
 
   // Sort options
@@ -82,7 +56,8 @@ export default function NewArrivalsSection() {
     setSortOption(option);
     setShowSortOptions(false);
     
-    // Example sorting logic (to be replaced with actual implementation)
+    // Sorting logic will be implemented here or moved to backend
+    // Placeholder logic for frontend display
     let sortedProducts = [...products];
     switch(option) {
       case 'Price, low to high':
@@ -98,7 +73,7 @@ export default function NewArrivalsSection() {
         sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
         break;
       default:
-        // Best selling would typically use a different metric
+        // Best selling would typically use a different metric from backend
         break;
     }
     setProducts(sortedProducts);
@@ -228,56 +203,5 @@ export default function NewArrivalsSection() {
         </div>
       </div>
     </section>
-  );
-}
-
-// Updated ProductCard component with navigation to product details page
-function ProductCard({ product, index }) {
-  // Calculate staggered delay based on index position
-  // More pronounced staggering for better visual effect
-  const aosDelay = 300 + (index % 4) * 150;
-  
-  return (
-    <div 
-      className="flex flex-col group"
-      data-aos="fade-up"
-      data-aos-duration="1200"
-      data-aos-delay={aosDelay}
-      data-aos-once="true"
-      data-aos-anchor-placement="top-bottom"
-    >
-      {/* Product Image - Now wrapped in Link */}
-      <Link to={`/product/${product.id}`} className="w-full h-[400px] overflow-hidden bg-lightPink rounded-t relative">
-        <img 
-          src={product.image} 
-          alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-darkMaroon/0 group-hover:bg-darkMaroon/10 transition-all duration-700"></div>
-      </Link>
-      
-      {/* Product Details */}
-      <div className="p-4 border-x border-b border-maroon-20 rounded-b bg-cream">
-        {/* Product name - Now wrapped in Link */}
-        <Link to={`/product/${product.id}`}>
-          <h3 className="text-lg font-medium text-darkBrown group-hover:text-maroon transition-colors duration-300">{product.name}</h3>
-        </Link>
-        <p className="text-maroon font-semibold mt-1">₹{product.price.toLocaleString()}</p>
-        
-        {/* Add to Cart Button */}
-        <button 
-          className="w-full py-2 px-3 bg-maroon text-cream rounded hover:bg-darkMaroon transition-all duration-300 font-medium mt-3 flex items-center justify-center gap-2 group-hover:shadow-custom"
-          onClick={(e) => {
-            e.preventDefault(); // Prevent navigation when clicking the button
-            // Add to cart logic would go here
-            console.log(`Added ${product.name} to cart`);
-          }}
-        >
-          <ShoppingCart size={18} className="transform group-hover:scale-110 transition-transform duration-300" />
-          <span>ADD TO CART</span>
-        </button>
-      </div>
-    </div>
   );
 }
