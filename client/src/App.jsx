@@ -15,6 +15,7 @@ function ScrollToTop() {
   }, [location]);
 
   return null;
+  
 }
 
 import Header from './components/Header';
