@@ -1,4 +1,6 @@
+// src/Pages/New-Arrivals/NewArrivalsSection.jsx
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Filter, ChevronDown, ShoppingCart } from 'lucide-react';
 
 export default function NewArrivalsSection() {
@@ -229,6 +231,7 @@ export default function NewArrivalsSection() {
   );
 }
 
+// Updated ProductCard component with navigation to product details page
 function ProductCard({ product, index }) {
   // Calculate staggered delay based on index position
   // More pronounced staggering for better visual effect
@@ -243,8 +246,8 @@ function ProductCard({ product, index }) {
       data-aos-once="true"
       data-aos-anchor-placement="top-bottom"
     >
-      {/* Product Image */}
-      <div className="w-full h-[400px] overflow-hidden bg-lightPink rounded-t relative">
+      {/* Product Image - Now wrapped in Link */}
+      <Link to={`/product/${product.id}`} className="w-full h-[400px] overflow-hidden bg-lightPink rounded-t relative">
         <img 
           src={product.image} 
           alt={product.name}
@@ -252,19 +255,23 @@ function ProductCard({ product, index }) {
         />
         {/* Hover overlay */}
         <div className="absolute inset-0 bg-darkMaroon/0 group-hover:bg-darkMaroon/10 transition-all duration-700"></div>
-      </div>
+      </Link>
       
       {/* Product Details */}
       <div className="p-4 border-x border-b border-maroon-20 rounded-b bg-cream">
-        <h3 className="text-lg font-medium text-darkBrown group-hover:text-maroon transition-colors duration-300">{product.name}</h3>
+        {/* Product name - Now wrapped in Link */}
+        <Link to={`/product/${product.id}`}>
+          <h3 className="text-lg font-medium text-darkBrown group-hover:text-maroon transition-colors duration-300">{product.name}</h3>
+        </Link>
         <p className="text-maroon font-semibold mt-1">₹{product.price.toLocaleString()}</p>
         
         {/* Add to Cart Button */}
         <button 
           className="w-full py-2 px-3 bg-maroon text-cream rounded hover:bg-darkMaroon transition-all duration-300 font-medium mt-3 flex items-center justify-center gap-2 group-hover:shadow-custom"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault(); // Prevent navigation when clicking the button
             // Add to cart logic would go here
-           // console.log(`Added ${product.name} to cart`);
+            console.log(`Added ${product.name} to cart`);
           }}
         >
           <ShoppingCart size={18} className="transform group-hover:scale-110 transition-transform duration-300" />

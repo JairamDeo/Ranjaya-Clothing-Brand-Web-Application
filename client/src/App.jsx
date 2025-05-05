@@ -28,6 +28,7 @@ const Home = lazy(() => import('./Pages/Home/Home'));
 const NewArrivals = lazy(() => import('./Pages/New-Arrivals/NewArrivals'));
 const BestSeller = lazy(() => import('./Pages/Best-Sellers/BestSeller'));
 const AboutUs = lazy(() => import('./Pages/AboutUs'));
+const ProductView = lazy(() => import('./Pages/ProductView/ProductView'));
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
             <Route exact path='/new-arrivals' element={<NewArrivals />} />
             <Route exact path='/best-sellers' element={<BestSeller />} />
             <Route exact path='/about-us' element={<AboutUs />} />
+            <Route exact path='/product/:id' element={<ProductView />} />
 
 
             <Route exact path='/account' element={<AuthPage/>} />
