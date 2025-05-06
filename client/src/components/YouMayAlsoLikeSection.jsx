@@ -115,7 +115,8 @@ export default function YouMayAlsoLikeSection({ currentProductId }) {
       <div className="container mx-auto">
         {/* Section heading */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl md:text-3xl font-semibold text-darkBrown">
+          <h2 className="text-center mx-auto text-darkBrown text-3xl md:text-4xl font-semibold mb-8"
+          data-aos="fade-down">
             You May Also Like
           </h2>
           
