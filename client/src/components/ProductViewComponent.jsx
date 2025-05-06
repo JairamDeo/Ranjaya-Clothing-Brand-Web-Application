@@ -1,663 +1,472 @@
+// src/components/ProductViewComponent.jsx
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, Minus, Plus, ShoppingCart, ArrowRight, X, ChevronLeft, ChevronRight as ChevronRightIcon, Check, Heart, Share2 } from 'lucide-react';
+import { ShoppingCart, ChevronRight, ChevronLeft, Minus, Plus, Check, X } from 'lucide-react';
+import YouMayAlsoLikeSection from './YouMayAlsoLikeSection';
+import AddToCartGif from '../assets/add-to-cart-animation.gif';
 
 /**
- * Product View Component - Displays detailed product information
+ * ProductViewComponent displays detailed product information
  * @param {Object} props - Component props
- * @param {Object} props.product - Product data object (will be fetched from backend based on productId)
- * @param {string|number} props.productId - The ID of the product to display
- * @returns {JSX.Element} The product view component
+ * @param {string|number} props.productId - ID of the product to display
+ * @returns {JSX.Element} - The product view component
  */
 export default function ProductViewComponent({ productId }) {
-  // In a real implementation, you would fetch this data from your backend based on productId
-  // Initial state with placeholders
-  const [product, setProduct] = useState({
-    id: productId || '',
-    name: '', // Will be populated from backend
-    price: 0, // Will be populated from backend
-    discountPrice: null, // Optional - if product has a discount
-    discount: null, // Optional - display text for discount
-    rating: null, // Optional - product rating
-    reviews: null, // Optional - number of reviews
-    colors: [], // Optional - available colors (will be populated by backend if applicable)
-    sizes: [], // Optional - available sizes (will be populated by backend if applicable)
-    images: [
-      "/api/placeholder/600/800" // Default placeholder - will be replaced by backend
-    ],
-    description: '', // Will be populated from backend
-    details: [], // Will be populated from backend
-    deliveryInfo: '', // Will be populated from backend
-    careInstructions: null, // Optional - care instructions if applicable
-    categoryName: '', // For breadcrumb navigation
-    collectionName: '' // For breadcrumb navigation
-  });
-
-  // State variables
-  const [mainImage, setMainImage] = useState(product.images[0]);
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
+  // Product data state - will be fetched from backend
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('details');
   const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState('description');
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [showSizeGuide, setShowSizeGuide] = useState(false);
-  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
-  const [showAddToCartAnimation, setShowAddToCartAnimation] = useState(false);
-  const [relatedProducts, setRelatedProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Update main image when product changes (when data is loaded from backend)
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [showAddedAnimation, setShowAddedAnimation] = useState(false);
+  const [showAddToCartModal, setShowAddToCartModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Check viewport width for responsive layout
   useEffect(() => {
-    if (product?.images?.length > 0) {
-      setMainImage(product.images[0]);
-    }
-    
-    // Reset state when product changes
-    setSelectedColor(product.colors?.[0] || null);
-    setSelectedSize(null);
-    setQuantity(1);
-    setActiveTab('description');
-  }, [product]);
-
-  // Fetch product data when component mounts or productId changes
-  useEffect(() => {
-    const fetchProductData = async () => {
-      setIsLoading(true);
-      try {
-        // TODO: Backend developer will implement this API call
-        // Example:
-        // const response = await fetch(`/api/products/${productId}`);
-        // const data = await response.json();
-        // setProduct(data);
-        
-        // For now, simulate API response with a timeout
-        setTimeout(() => {
-          // This is just a placeholder. In real implementation,
-          // this data will come from the backend API
-          setProduct(prevProduct => ({
-            ...prevProduct,
-            name: `${productId}`, // Placeholder
-            price: `${productId}` , // Placeholder
-            discountPrice: null,
-            categoryName: 'Category', // Placeholder
-            collectionName: 'Collection', // Placeholder
-            description: 'This product description will be loaded from the backend. It will contain details about the fabric, fit, and features of this clothing item.',
-            details: [
-              'Material composition will be provided by backend',
-              'Care instructions will be provided by backend',
-              'Product dimensions will be provided by backend'
-            ],
-            deliveryInfo: 'Delivery information will be provided by backend including shipping time and return policy.',
-            // Other fields remain as placeholders
-          }));
-          
-          // Also fetch related products (You may also like section)
-          // This will be implemented by backend
-          setRelatedProducts([
-            { id: 101, name: 'Related Product 1', price: 999, image: '/api/placeholder/300/400' },
-            { id: 102, name: 'Related Product 2', price: 1499, image: '/api/placeholder/300/400' },
-            { id: 103, name: 'Related Product 3', price: 1299, image: '/api/placeholder/300/400' },
-            { id: 104, name: 'Related Product 4', price: 1899, image: '/api/placeholder/300/400' }
-          ]);
-          
-          setIsLoading(false);
-        }, 500);
-      } catch (error) {
-        console.error('Error fetching product data:', error);
-        setIsLoading(false);
-      }
+    const checkWidth = () => {
+      setIsMobile(window.innerWidth < 768);
     };
-
-    if (productId) {
-      fetchProductData();
-    }
+    
+    checkWidth();
+    window.addEventListener('resize', checkWidth);
+    
+    return () => window.removeEventListener('resize', checkWidth);
+  }, []);
+  
+  // Mock fetch product data - This will be replaced with actual API call
+  useEffect(() => {
+    // Simulate API fetch delay
+    const timer = setTimeout(() => {
+      // This is placeholder data that would come from backend
+      setProduct({
+        id: productId,
+        name: "", // Will come from backend
+        price: null, // Will come from backend
+        images: [
+          "/api/placeholder/600/800", // Main product image
+          "/api/placeholder/600/800?text=Image+2", // Additional product images
+          "/api/placeholder/600/800?text=Image+3",
+          "/api/placeholder/600/800?text=Image+4",
+          "/api/placeholder/600/800?text=Image+5"
+        ],
+        details: "", // Will come from backend
+        description: "", // Will come from backend
+        dispatchInfo: "", // Will come from backend
+        disclaimer: "", // Will come from backend
+        washCare: "" // Will come from backend
+      });
+      setLoading(false);
+    }, 500);
+    
+    return () => clearTimeout(timer);
   }, [productId]);
-
+  
   // Handle quantity change
   const decreaseQuantity = () => {
-    if (quantity > 1) setQuantity(quantity - 1);
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
   };
-
+  
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
   };
-
+  
   // Calculate total price based on quantity
-  const totalPrice = product.price * quantity;
-  const totalDiscountPrice = product.discountPrice ? product.discountPrice * quantity : null;
-
-  // Add to cart function
-  const addToCart = () => {
-    // Only require size selection if product has sizes available
-    if (product.sizes?.length > 0 && !selectedSize) {
-      alert("Please select a size");
-      return;
-    }
-    
-    console.log("Added to cart:", {
-      productId: product.id,
-      name: product.name,
-      selectedColor,
-      selectedSize,
-      quantity,
-      totalPrice
-    });
-    
-    // Show success animation
-    setShowAddToCartAnimation(true);
-    
-    // Hide animation after 3 seconds
-    setTimeout(() => {
-      setShowAddToCartAnimation(false);
-    }, 3000);
-    
-    // TODO: Backend developer will implement the cart functionality
-    // For example: dispatch to your cart state/store
-  };
-
-  // Buy now function
-  const buyNow = () => {
-    // Only require size selection if product has sizes available
-    if (product.sizes?.length > 0 && !selectedSize) {
-      alert("Please select a size");
-      return;
-    }
-    
-    console.log("Buy now:", {
-      productId: product.id,
-      name: product.name,
-      selectedColor,
-      selectedSize,
-      quantity,
-      totalPrice
-    });
-    
-    // TODO: Backend developer will implement redirect to checkout
-  };
-
-  // Size guide modal content - Only shown if product has sizes
-  const SizeGuideModal = () => (
-    <div className="fixed inset-0 bg-darkBrown bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-cream rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-4 border-b border-maroon-20">
-          <h3 className="text-xl font-semibold text-darkBrown">Size Guide</h3>
-          <button 
-            onClick={() => setShowSizeGuide(false)}
-            className="p-2 rounded-full hover:bg-lightPink text-maroon"
-          >
-            <X size={20} />
-          </button>
-        </div>
-        <div className="p-6">
-          {/* Size guide content will be dynamically populated based on product category */}
-          {/* This is a placeholder structure that will be filled by backend data */}
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-lightPink">
-                  <th className="border border-maroon-20 p-3 text-left text-darkBrown">Size</th>
-                  <th className="border border-maroon-20 p-3 text-left text-darkBrown">Measurements</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* Size guide data will be populated here by backend */}
-                <tr>
-                  <td className="border border-maroon-20 p-3 text-darkBrown font-medium">Size data will be provided by backend</td>
-                  <td className="border border-maroon-20 p-3 text-darkBrown">Measurement data will be provided by backend</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className="mt-6">
-            <h4 className="font-medium text-darkBrown mb-2">How to Measure</h4>
-            <p className="text-darkBrown">Measurement instructions will be populated by backend based on product type.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  // Carousel functions for image gallery
-  const handlePrevSlide = () => {
-    if (!product.images?.length) return;
-    
-    setCurrentCarouselIndex(prevIndex => 
-      prevIndex === 0 ? Math.ceil(product.images.length / 4) - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNextSlide = () => {
-    if (!product.images?.length) return;
-    
-    setCurrentCarouselIndex(prevIndex => 
-      prevIndex === Math.ceil(product.images.length / 4) - 1 ? 0 : prevIndex + 1
-    );
+  const calculateTotalPrice = () => {
+    if (!product || !product.price) return null;
+    return (product.price * quantity).toLocaleString();
   };
   
-  // Calculate visible images based on carousel index
-  const getVisibleImages = () => {
-    if (!product.images?.length) return [];
+  // Handle add to cart with animation and modal
+  const handleAddToCart = () => {
+    // This will be integrated with cart functionality from backend
+    console.log(`Added ${quantity} ${product?.name} to cart`);
     
-    const itemsPerPage = 4; // Display 4 thumbnails at a time
-    const startIndex = currentCarouselIndex * itemsPerPage;
-    return product.images.slice(startIndex, startIndex + itemsPerPage);
+    // Show animation
+    setShowAddedAnimation(true);
+    
+    // Show modal
+    setShowAddToCartModal(true);
+    
+    // Hide animation after 2 seconds
+    setTimeout(() => {
+      setShowAddedAnimation(false);
+    }, 2000);
   };
-
+  
+  // Handle buy now
+  const handleBuyNow = () => {
+    // Add to cart and redirect to checkout
+    handleAddToCart();
+    console.log('Redirecting to checkout...');
+    // Redirect logic will be added here
+  };
+  
+  // Handle thumbnail click
+  const handleThumbnailClick = (index) => {
+    setActiveImageIndex(index);
+  };
+  
+  // Next/Prev thumbnails
+  const handleNextThumbnail = () => {
+    if (!product) return;
+    setActiveImageIndex((prev) => (prev === product.images.length - 1 ? 0 : prev + 1));
+  };
+  
+  const handlePrevThumbnail = () => {
+    if (!product) return;
+    setActiveImageIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1));
+  };
+  
+  // Handle tab change
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+  
+  // Close the add to cart modal
+  const closeAddToCartModal = () => {
+    setShowAddToCartModal(false);
+  };
+  
   // Loading state
-  if (isLoading) {
+  if (loading) {
     return (
-      <div className="flex justify-center items-center py-16">
-        <div className="animate-pulse text-center">
-          <div className="h-10 w-48 bg-lightPink rounded mx-auto mb-6"></div>
-          <div className="h-64 w-full max-w-md bg-lightPink rounded mb-6"></div>
-          <div className="h-4 w-full max-w-md bg-lightPink rounded mb-2"></div>
-          <div className="h-4 w-full max-w-md bg-lightPink rounded"></div>
+      <div className="container mx-auto px-4 md:px-6 lg:px-12 py-8">
+        <div className="flex justify-center items-center h-96">
+          <div className="text-darkBrown">Loading product information...</div>
         </div>
       </div>
     );
   }
-
+  
+  // If product wasn't found
+  if (!product) {
+    return (
+      <div className="container mx-auto px-4 md:px-6 lg:px-12 py-8">
+        <div className="flex flex-col justify-center items-center h-96">
+          <h2 className="text-2xl text-darkBrown mb-4">Product Not Found</h2>
+          <p className="text-darkBrown">The product you're looking for might be unavailable or removed.</p>
+        </div>
+      </div>
+    );
+  }
+  
   return (
-    <section className="bg-cream px-4 py-6 md:px-6 lg:px-12">
-      <div className="container mx-auto">
-        {/* Breadcrumb Navigation */}
-        <nav className="mb-6 text-sm flex items-center gap-1 overflow-x-auto whitespace-nowrap pb-2" aria-label="Breadcrumb">
-          <a href="/" className="text-darkBrown hover:text-maroon">Home</a>
-          <ChevronRight size={14} className="text-darkBrown" />
-          {product.categoryName && (
-            <>
-              <a href={`/category/${encodeURIComponent(product.categoryName.toLowerCase())}`} className="text-darkBrown hover:text-maroon">
-                {product.categoryName}
-              </a>
-              <ChevronRight size={14} className="text-darkBrown" />
-            </>
-          )}
-          {product.collectionName && (
-            <>
-              <a href={`/collections/${encodeURIComponent(product.collectionName.toLowerCase())}`} className="text-darkBrown hover:text-maroon">
-                {product.collectionName}
-              </a>
-              <ChevronRight size={14} className="text-darkBrown" />
-            </>
-          )}
-          <span className="text-maroon font-medium truncate max-w-xs">{product.name}</span>
-        </nav>
-
-        {/* Product Display - Main Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12"
-             data-aos="fade-up" 
-             data-aos-duration="1000" 
-             data-aos-once="true">
-          
-          {/* Left: Image Gallery */}
-          <div className="flex flex-col gap-4">
+    <div className="bg-cream">
+      <div className="container mx-auto px-4 md:px-6 lg:px-12 py-8">
+        {/* Breadcrumb */}
+        <div className="mb-6 text-sm flex items-center text-darkBrown/70">
+          <span className="hover:text-maroon transition-colors cursor-pointer">Home</span>
+          <ChevronRight size={16} className="mx-2" />
+          <span className="hover:text-maroon transition-colors cursor-pointer">Products</span>
+          <ChevronRight size={16} className="mx-2" />
+          <span className="text-maroon font-medium">{product.name || "Product Details"}</span>
+        </div>
+        
+        {/* Product View Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Product Images */}
+          <div className="space-y-6" data-aos="fade-right">
             {/* Main Image */}
-            <div className="bg-lightPink rounded overflow-hidden relative w-full h-80 sm:h-96 md:h-[500px] lg:h-[600px]">
+            <div className="bg-lightPink rounded-lg overflow-hidden h-[500px] sm:h-[600px] flex items-center justify-center shadow-custom">
               <img 
-                src={mainImage} 
-                alt={product.name}
-                className="w-full h-full object-cover"
+                src={product.images[activeImageIndex]} 
+                alt={product.name || "Product Image"} 
+                className="w-full h-full object-contain transition-all duration-500 hover:scale-105"
               />
-              
-              {/* Favorite & Share Buttons */}
-              <div className="absolute top-4 right-4 flex flex-col gap-2">
-                <button 
-                  onClick={() => setIsFavorite(!isFavorite)}
-                  className={`p-2 rounded-full ${isFavorite ? 'bg-maroon text-cream' : 'bg-cream text-maroon'} hover:bg-maroon hover:text-cream transition-colors duration-300 shadow-custom`}
-                >
-                  <Heart size={20} fill={isFavorite ? "#fefdf9" : "none"} />
-                </button>
-                <button className="p-2 rounded-full bg-cream text-maroon hover:bg-maroon hover:text-cream transition-colors duration-300 shadow-custom">
-                  <Share2 size={20} />
-                </button>
-              </div>
             </div>
             
-            {/* Thumbnail Carousel - Only rendered if product has multiple images */}
-            {product.images?.length > 1 && (
-              <div className="relative">
-                <div className="flex justify-center gap-2 pb-2 overflow-hidden">
-                  {getVisibleImages().map((img, index) => (
-                    <button 
-                      key={index}
-                      onClick={() => setMainImage(img)}
-                      className={`min-w-16 h-16 sm:w-20 sm:h-20 border ${
-                        mainImage === img ? 'border-maroon' : 'border-maroon-20'
-                      } rounded overflow-hidden transition-transform duration-300`}
-                    >
-                      <img 
-                        src={img} 
-                        alt={`${product.name} view ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-                  
-                {/* Carousel Navigation Buttons - Only shown if needed */}
-                {product.images.length > 4 && (
-                  <>
-                    <button 
-                      onClick={handlePrevSlide}
-                      className="absolute left-0 top-1/2 -translate-y-1/2 p-1 bg-cream bg-opacity-80 text-maroon rounded-full shadow-custom hover:bg-maroon hover:text-cream transition-colors"
-                      aria-label="Previous images"
-                    >
-                      <ChevronLeft size={20} />
-                    </button>
-                    
-                    <button 
-                      onClick={handleNextSlide}
-                      className="absolute right-0 top-1/2 -translate-y-1/2 p-1 bg-cream bg-opacity-80 text-maroon rounded-full shadow-custom hover:bg-maroon hover:text-cream transition-colors"
-                      aria-label="Next images"
-                    >
-                      <ChevronRightIcon size={20} />
-                    </button>
-                  </>
-                )}
-                
-                {/* Carousel Indicators - Only if multiple pages of images */}
-                {Math.ceil(product.images.length / 4) > 1 && (
-                  <div className="flex justify-center mt-2 gap-1">
-                    {[...Array(Math.ceil(product.images.length / 4))].map((_, index) => (
+            {/* Enhanced Thumbnail Carousel - Mobile & Desktop Variations */}
+            <div className="relative">
+              {/* Mobile layout: navigation buttons below thumbnails */}
+              {isMobile ? (
+                <>
+                  {/* Thumbnails */}
+                  <div className="flex justify-center space-x-3 overflow-x-auto pb-2 px-2">
+                    {product.images.map((image, index) => (
                       <button
                         key={index}
-                        onClick={() => setCurrentCarouselIndex(index)}
-                        className={`w-2 h-2 rounded-full transition-all ${
-                          currentCarouselIndex === index 
-                            ? 'bg-maroon w-4' 
-                            : 'bg-maroon-20 hover:bg-maroon hover:opacity-60'
+                        onClick={() => handleThumbnailClick(index)}
+                        className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden transition-all duration-300 ${
+                          activeImageIndex === index 
+                            ? 'ring-2 ring-maroon scale-105 shadow-lg' 
+                            : 'opacity-80 hover:opacity-100'
                         }`}
-                        aria-label={`Go to image set ${index + 1}`}
-                      />
+                      >
+                        <img 
+                          src={image} 
+                          alt={`${product.name || "Product"} thumbnail ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        {activeImageIndex === index && (
+                          <div className="absolute inset-0 bg-maroon bg-opacity-10 border-2 border-maroon"></div>
+                        )}
+                      </button>
                     ))}
                   </div>
-                )}
-              </div>
-            )}
-          </div>
-          
-          {/* Right: Product Details */}
-          <div>
-            <h1 className="text-2xl md:text-3xl font-semibold text-darkBrown">{product.name}</h1>
-            
-            {/* Ratings - Only shown if product has ratings */}
-            {product.rating && (
-              <div className="mt-2 flex items-center gap-2">
-                <div className="bg-green-600 text-white text-sm px-2 py-0.5 rounded font-medium flex items-center gap-1">
-                  {product.rating} ★
-                </div>
-                {product.reviews && (
-                  <span className="text-darkBrown text-sm">{product.reviews} Reviews</span>
-                )}
-              </div>
-            )}
-            
-            {/* Price */}
-            <div className="mt-4 flex items-center gap-2">
-              <span className="text-xl md:text-2xl font-bold text-maroon">
-                ₹{totalPrice}
-              </span>
-              {totalDiscountPrice && (
+                  
+                  {/* Navigation buttons - Below for mobile */}
+                  <div className="flex justify-center space-x-4 mt-3">
+                    <button 
+                      onClick={handlePrevThumbnail}
+                      className="bg-cream p-2 rounded-full shadow-custom text-maroon hover:text-darkMaroon hover:bg-lightPink transition-all duration-300 hover:scale-110"
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft size={24} />
+                    </button>
+                    <button 
+                      onClick={handleNextThumbnail}
+                      className="bg-cream p-2 rounded-full shadow-custom text-maroon hover:text-darkMaroon hover:bg-lightPink transition-all duration-300 hover:scale-110"
+                      aria-label="Next image"
+                    >
+                      <ChevronRight size={24} />
+                    </button>
+                  </div>
+                </>
+              ) : (
+                // Desktop layout: navigation buttons on sides
                 <>
-                  <span className="text-gray-500 line-through">
-                    ₹{totalDiscountPrice}
-                  </span>
-                  {product.discount && (
-                    <span className="text-green-600 font-medium">{product.discount}</span>
-                  )}
+                  {/* Prev Button */}
+                  <button 
+                    onClick={handlePrevThumbnail}
+                    className="absolute -left-3 top-1/2 -translate-y-1/2 bg-cream p-2 rounded-full shadow-custom text-maroon hover:text-darkMaroon hover:bg-lightPink z-10 transition-all duration-300 hover:scale-110"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  
+                  {/* Thumbnails with improved styling */}
+                  <div className="mx-10 relative">
+                    <div className="flex justify-center space-x-4">
+                      {product.images.map((image, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleThumbnailClick(index)}
+                          className={`relative flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden transition-all duration-300 ${
+                            activeImageIndex === index 
+                              ? 'ring-2 ring-maroon scale-105 shadow-lg' 
+                              : 'opacity-80 hover:opacity-100'
+                          }`}
+                        >
+                          <img 
+                            src={image} 
+                            alt={`${product.name || "Product"} thumbnail ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                          {activeImageIndex === index && (
+                            <div className="absolute inset-0 bg-maroon bg-opacity-10 border-2 border-maroon"></div>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                    {/* Decorative element */}
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-1 bg-maroon rounded-full"></div>
+                  </div>
+                  
+                  {/* Next Button */}
+                  <button 
+                    onClick={handleNextThumbnail}
+                    className="absolute -right-3 top-1/2 -translate-y-1/2 bg-cream p-2 rounded-full shadow-custom text-maroon hover:text-darkMaroon hover:bg-lightPink z-10 transition-all duration-300 hover:scale-110"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight size={24} />
+                  </button>
                 </>
               )}
             </div>
+          </div>
+          
+          {/* Product Info */}
+          <div className="flex flex-col" data-aos="fade-left">
+            {/* Product Name */}
+            <h1 className="text-3xl font-semibold text-darkBrown mb-2">{product.name || "Product Name"}</h1>
             
-            {/* Color Selection - Only shown if product has colors */}
-            {product.colors?.length > 0 && (
-              <div className="mt-6">
-                <h3 className="font-medium text-darkBrown mb-2">Color</h3>
-                <div className="flex gap-3">
-                  {product.colors.map((color, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedColor(color)}
-                      className={`w-8 h-8 rounded-full border-2 ${selectedColor === color ? 'border-maroon' : 'border-transparent'} transition-all`}
-                      style={{ background: color }}
-                      aria-label={`Select color ${index + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
+            {/* Price */}
+            <div className="text-2xl font-semibold text-maroon mb-6">
+              ₹{product.price ? calculateTotalPrice() : "Price unavailable"}
+            </div>
             
-            {/* Size Selection - Only shown if product has sizes */}
-            {product.sizes?.length > 0 && (
-              <div className="mt-6">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-medium text-darkBrown">Size</h3>
-                  <button 
-                    className="text-maroon text-sm hover:underline"
-                    onClick={() => setShowSizeGuide(true)}
-                  >
-                    Size Guide
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {product.sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`min-w-12 h-10 px-3 rounded border ${
-                        selectedSize === size 
-                          ? 'border-maroon bg-lightPink text-maroon' 
-                          : 'border-maroon-20 hover:border-maroon text-darkBrown'
-                      } font-medium transition-all`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-                {/* Size selection message - only if sizes are available but none selected */}
-                {product.sizes.length > 0 && !selectedSize && (
-                  <p className="text-sm text-maroon mt-2">Please select a size</p>
-                )}
-              </div>
-            )}
+            {/* Divider */}
+            <div className="border-t border-maroon-20 mb-6"></div>
             
-            {/* Quantity */}
-            <div className="mt-6">
-              <h3 className="font-medium text-darkBrown mb-2">Quantity</h3>
-              <div className="flex items-center border border-maroon-20 rounded w-fit">
+            {/* Quantity Selector with improved styling */}
+            <div className="mb-6">
+              <label className="block text-darkBrown mb-2 font-medium">Quantity</label>
+              <div className="flex items-center max-w-xs">
                 <button 
                   onClick={decreaseQuantity}
-                  className="px-3 py-2 text-maroon hover:bg-lightPink transition-colors"
+                  className="p-2 border border-maroon-20 rounded-l text-darkBrown hover:bg-lightPink transition-colors hover:text-maroon"
                   disabled={quantity <= 1}
+                  aria-label="Decrease quantity"
                 >
-                  <Minus size={18} />
+                  <Minus size={18} className={quantity <= 1 ? "opacity-50" : ""} />
                 </button>
-                <span className="px-6 py-2 font-medium text-darkBrown">{quantity}</span>
+                <div className="px-6 py-2 border-t border-b border-maroon-20 text-center min-w-[60px] bg-cream">
+                  {quantity}
+                </div>
                 <button 
                   onClick={increaseQuantity}
-                  className="px-3 py-2 text-maroon hover:bg-lightPink transition-colors"
+                  className="p-2 border border-maroon-20 rounded-r text-darkBrown hover:bg-lightPink transition-colors hover:text-maroon"
+                  aria-label="Increase quantity"
                 >
                   <Plus size={18} />
                 </button>
               </div>
             </div>
             
-            {/* Action Buttons */}
-            <div className="mt-8 flex flex-col sm:flex-row gap-4">
+            {/* Actions with add to cart animation */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-8 relative">
               <button 
-                onClick={addToCart}
-                className="flex-1 py-3 bg-cream border-2 border-maroon text-maroon rounded hover:bg-lightPink transition-colors duration-300 font-medium flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-3 bg-maroon text-cream rounded hover:bg-darkMaroon transition-all duration-300 font-medium flex items-center justify-center gap-2 hover:shadow-md group relative overflow-hidden"
+                onClick={handleAddToCart}
               >
-                <ShoppingCart size={20} />
-                <span>ADD TO CART</span>
+                {showAddedAnimation ? (
+                  <>
+                    <div className="absolute inset-0 flex items-center justify-center bg-darkMaroon">
+                      <Check size={24} className="mr-2" />
+                      <span>ADDED TO CART!</span>
+                    </div>
+                    <div className="flex items-center justify-center opacity-0">
+                      <ShoppingCart size={18} />
+                      <span>ADD TO CART</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart size={18} className="transform group-hover:scale-110 transition-transform duration-300" />
+                    <span>ADD TO CART</span>
+                  </>
+                )}
               </button>
+              
               <button 
-                onClick={buyNow}
-                className="flex-1 py-3 bg-maroon text-cream rounded hover:bg-darkMaroon transition-colors duration-300 font-medium flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-3 bg-darkBrown text-cream rounded hover:bg-darkBrown/80 transition-all duration-300 font-medium hover:shadow-md"
+                onClick={handleBuyNow}
               >
-                <span>BUY NOW</span>
-                <ArrowRight size={20} />
+                BUY NOW
               </button>
             </div>
             
-            {/* Delivery Info */}
-            {product.deliveryInfo && (
-              <div className="mt-6 p-4 bg-lightPink rounded border border-maroon-20">
-                <p className="text-darkBrown">{product.deliveryInfo}</p>
+            {/* Product Info Tabs with enhanced design */}
+            <div className="border border-maroon-20 rounded-lg overflow-hidden shadow-custom">
+              {/* Tab Headers */}
+              <div className="flex flex-wrap border-b border-maroon-20 bg-lightPink/30">
+                {['details', 'description', 'dispatch', 'disclaimer', 'washcare'].map((tab) => (
+                  <button 
+                    key={tab}
+                    className={`px-4 py-3 text-sm font-medium transition-all duration-300 ${
+                      activeTab === tab 
+                        ? 'bg-maroon text-cream shadow-md' 
+                        : 'bg-cream/80 text-darkBrown hover:bg-lightPink'
+                    }`}
+                    onClick={() => handleTabChange(tab)}
+                  >
+                    {tab === 'details' && 'Product Details'}
+                    {tab === 'description' && 'Description'}
+                    {tab === 'dispatch' && 'Dispatch Information'}
+                    {tab === 'disclaimer' && 'Disclaimer'}
+                    {tab === 'washcare' && 'Wash Care'}
+                  </button>
+                ))}
               </div>
-            )}
-          </div>
-        </div>
-        
-        {/* Product Details Tabs */}
-        <div className="mt-12" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" data-aos-once="true">
-          {/* Tab Navigation */}
-          <div className="flex overflow-x-auto border-b border-maroon-20">
-            <button 
-              onClick={() => setActiveTab('description')}
-              className={`px-4 py-3 font-medium whitespace-nowrap ${activeTab === 'description' ? 'text-maroon border-b-2 border-maroon' : 'text-darkBrown hover:text-maroon'}`}
-            >
-              Description
-            </button>
-            {product.details?.length > 0 && (
-              <button 
-                onClick={() => setActiveTab('details')}
-                className={`px-4 py-3 font-medium whitespace-nowrap ${activeTab === 'details' ? 'text-maroon border-b-2 border-maroon' : 'text-darkBrown hover:text-maroon'}`}
-              >
-                Product Details
-              </button>
-            )}
-            {product.careInstructions && (
-              <button 
-                onClick={() => setActiveTab('care')}
-                className={`px-4 py-3 font-medium whitespace-nowrap ${activeTab === 'care' ? 'text-maroon border-b-2 border-maroon' : 'text-darkBrown hover:text-maroon'}`}
-              >
-                Care Instructions
-              </button>
-            )}
-            <button 
-              onClick={() => setActiveTab('dispatch')}
-              className={`px-4 py-3 font-medium whitespace-nowrap ${activeTab === 'dispatch' ? 'text-maroon border-b-2 border-maroon' : 'text-darkBrown hover:text-maroon'}`}
-            >
-              Shipping & Returns
-            </button>
-          </div>
-          
-          {/* Tab Content */}
-          <div className="py-6">
-            {activeTab === 'description' && (
-              <div className="text-darkBrown">
-                <p>{product.description || 'Product description will be available soon.'}</p>
+              
+              {/* Tab Content with improved styling */}
+              <div className="p-6 bg-cream">
+                {activeTab === 'details' && (
+                  <div className="text-darkBrown leading-relaxed">
+                    {product.details || "Product details will be displayed here."}
+                  </div>
+                )}
+                {activeTab === 'description' && (
+                  <div className="text-darkBrown leading-relaxed">
+                    {product.description || "Product description will be displayed here."}
+                  </div>
+                )}
+                {activeTab === 'dispatch' && (
+                  <div className="text-darkBrown leading-relaxed">
+                    {product.dispatchInfo || "Dispatch information will be displayed here."}
+                  </div>
+                )}
+                {activeTab === 'disclaimer' && (
+                  <div className="text-darkBrown leading-relaxed">
+                    {product.disclaimer || "Disclaimer information will be displayed here."}
+                  </div>
+                )}
+                {activeTab === 'washcare' && (
+                  <div className="text-darkBrown leading-relaxed">
+                    {product.washCare || "Wash care instructions will be displayed here."}
+                  </div>
+                )}
               </div>
-            )}
-            
-            {activeTab === 'details' && (
-              <div className="text-darkBrown">
-                <ul className="list-disc pl-5 space-y-2">
-                  {product.details && product.details.length > 0 ? (
-                    product.details.map((detail, index) => (
-                      <li key={index}>{detail}</li>
-                    ))
-                  ) : (
-                    <li>Product details will be available soon.</li>
-                  )}
-                </ul>
-              </div>
-            )}
-            
-            {activeTab === 'care' && (
-              <div className="text-darkBrown">
-                <p>{product.careInstructions || 'Care instructions will be available soon.'}</p>
-              </div>
-            )}
-            
-            {activeTab === 'dispatch' && (
-              <div className="text-darkBrown">
-                <h3 className="font-medium mb-2">Shipping Information</h3>
-                <p className="mb-4">Shipping information will be provided by backend. This typically includes delivery timeframes, shipping carriers, and costs.</p>
-                
-                <h3 className="font-medium mb-2 mt-6">Returns Policy</h3>
-                <p>Returns policy will be provided by backend. This typically includes the return window, condition requirements, and refund process.</p>
-              </div>
-            )}
+            </div>
           </div>
         </div>
         
         {/* You May Also Like Section */}
-        <div className="mt-16 max-w-6xl mx-auto" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" data-aos-once="true">
-          <h2 className="text-2xl font-semibold text-darkBrown mb-6 text-center">You May Also Like</h2>
-          
-          {/* Related products grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {relatedProducts.length > 0 ? (
-              relatedProducts.map((relatedProduct) => (
-                <div key={relatedProduct.id} className="bg-cream border border-maroon-20 rounded overflow-hidden hover:shadow-custom transition-shadow">
-                  <a href={`/product/${relatedProduct.id}`} className="block">
-                    <div className="h-48 sm:h-56 md:h-64 lg:h-72 bg-lightPink">
-                      <img 
-                        src={relatedProduct.image} 
-                        alt={relatedProduct.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-3">
-                      <h3 className="font-medium text-darkBrown truncate">{relatedProduct.name}</h3>
-                      <p className="text-maroon font-semibold mt-1">₹{relatedProduct.price}</p>
-                    </div>
-                  </a>
-                </div>
-              ))
-            ) : (
-              // Placeholder cards while loading
-              [1, 2, 3, 4].map((item) => (
-                <div key={item} className="bg-cream border border-maroon-20 rounded overflow-hidden">
-                  <div className="h-48 sm:h-56 md:h-64 lg:h-72 bg-lightPink animate-pulse"></div>
-                  <div className="p-3">
-                    <div className="h-5 bg-lightPink rounded animate-pulse mb-2"></div>
-                    <div className="h-5 w-16 bg-lightPink rounded animate-pulse"></div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+        <div className="mt-16">
+          <YouMayAlsoLikeSection currentProductId={productId} />
         </div>
       </div>
       
-      {/* Size Guide Modal - Only rendered if showSizeGuide is true */}
-      {showSizeGuide && <SizeGuideModal />}
-      
-      {/* Add to Cart Success Animation */}
-      {showAddToCartAnimation && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
-          <div className="bg-cream bg-opacity-95 rounded-lg p-6 shadow-lg flex flex-col items-center max-w-sm">
-            <div className="rounded-full bg-green-500 p-2 mb-4">
-              <Check size={24} className="text-white" />
-            </div>
-            <h3 className="text-xl font-semibold text-darkBrown mb-2">Added to Cart!</h3>
-            <p className="text-center text-darkBrown mb-4">
-              {product.name} has been added to your cart.
-            </p>
-            <div className="flex gap-3 w-full">
-              <button
-                onClick={() => setShowAddToCartAnimation(false)}
-                className="flex-1 py-2 border border-maroon text-maroon rounded hover:bg-lightPink transition-colors"
-              >
-                Continue Shopping
-              </button>
-              <button
-                onClick={() => {
-                  setShowAddToCartAnimation(false);
-                  // Navigate to cart in a real app
-                  // TODO: Backend developer will implement this
-                  console.log("Navigate to cart");
-                }}
-                className="flex-1 py-2 bg-maroon text-cream rounded hover:bg-darkMaroon transition-colors"
-              >
-                View Cart
-              </button>
+      {/* Add to Cart Success Modal */}
+      {showAddToCartModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-darkBrown/50">
+          <div 
+            className="bg-cream rounded-lg shadow-lg max-w-md w-full mx-4 p-6 animate-fadeIn relative"
+            data-aos="zoom-in"
+            data-aos-duration="500"
+          >
+            {/* Close button */}
+            <button 
+              onClick={closeAddToCartModal}
+              className="absolute top-2 right-2 p-2 text-darkBrown hover:text-maroon transition-colors"
+              aria-label="Close modal"
+            >
+              <X size={20} />
+            </button>
+            
+            {/* Success content */}
+            <div className="flex flex-col items-center text-center">
+              <div className="mb-4 w-32 h-32 flex items-center justify-center">
+                <img 
+                  src={AddToCartGif} 
+                  alt="Item added to cart" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              
+              <h3 className="text-xl font-semibold text-darkBrown mb-2">
+                Item Added Successfully!
+              </h3>
+              
+              <p className="text-darkBrown/80 mb-6">
+                {product.name || "Your product"} has been added to your cart.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 w-full">
+                <button 
+                  onClick={closeAddToCartModal}
+                  className="flex-1 px-4 py-2 border border-maroon rounded text-maroon hover:bg-lightPink transition-all duration-300"
+                >
+                  Continue Shopping
+                </button>
+                
+                <button 
+                  className="flex-1 px-4 py-2 bg-maroon text-cream rounded hover:bg-darkMaroon transition-all duration-300"
+                  onClick={() => {
+                    closeAddToCartModal();
+                    // Redirect to cart page - will be implemented
+                    // console.log('Redirecting to cart...');
+                  }}
+                >
+                  Go to Cart
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
-    </section>
+    </div>
   );
 }
