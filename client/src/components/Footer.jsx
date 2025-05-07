@@ -7,6 +7,7 @@ import Logo from '../assets/Logo.webp'
 const Footer = () => {
   const year = new Date().getFullYear();
 
+  
   // Pre-defined static data - moved outside component to avoid re-creation on renders
   const footerLinks = [
     {
