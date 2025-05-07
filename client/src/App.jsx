@@ -15,19 +15,18 @@ function ScrollToTop() {
   }, [location]);
 
   return null;
-  
+
 }
 
-import Header from './components/Header';
-import Footer from './components/Footer';
-import ContactForm from './Pages/Contact/ContactForm';
+const Header = lazy(() => import('./components/Header'));
+const Footer = lazy(() => import('./components/Footer'));
 
-// Lazy-loaded screens
 const AuthPage = lazy(() => import('./Authentication/AuthPage'));
 const Home = lazy(() => import('./Pages/Home/Home'));
 const NewArrivals = lazy(() => import('./Pages/New-Arrivals/NewArrivals'));
 const BestSeller = lazy(() => import('./Pages/Best-Sellers/BestSeller'));
 const AboutUs = lazy(() => import('./Pages/AboutUs'));
+const ContactForm = lazy(() => import('./Pages/Contact/ContactForm'));
 const ProductView = lazy(() => import('./Pages/ProductView/ProductView'));
 
 function App() {
@@ -35,8 +34,8 @@ function App() {
   return (
     <Router>
       <div >
-      <ScrollToTop /> {/* Scroll to top on route change */}
-        <Header/>
+        <ScrollToTop /> {/* Scroll to top on route change */}
+        <Header />
         <Suspense fallback={<div className="text-center p-4">Loading...</div>}>
           <Routes>
             <Route exact path='/' element={<Home />} />
@@ -46,11 +45,11 @@ function App() {
             <Route exact path='/product/:id' element={<ProductView />} />
 
 
-            <Route exact path='/account' element={<AuthPage/>} />
-            <Route exact path='/contact-us' element={<ContactForm/>} />
+            <Route exact path='/account' element={<AuthPage />} />
+            <Route exact path='/contact-us' element={<ContactForm />} />
           </Routes>
         </Suspense>
-        <Footer/>
+        <Footer />
       </div>
     </Router>
   )

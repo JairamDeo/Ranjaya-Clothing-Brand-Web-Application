@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, ShoppingBag, User, ChevronDown, X, Search } from 'lucide-react';
 // Import logo from assets
-import Logo from '../assets/Logo.png';
+import Logo from '../assets/Logo.webp';
 // Import SearchBar component
 import SearchBar from './SearchBar';
 // Import CategoryDrawer component
