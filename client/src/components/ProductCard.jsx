@@ -39,6 +39,7 @@ export default function ProductCard({ product, index }) {
         <img 
           src={product.image || "/api/placeholder/300/400"} 
           alt={product.name || "Product"}
+          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {/* Hover overlay */}

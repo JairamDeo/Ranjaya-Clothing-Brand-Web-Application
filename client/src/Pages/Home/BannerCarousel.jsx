@@ -12,7 +12,7 @@ export default function BannerCarousel() {
   const [touchEnd, setTouchEnd] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const carouselRef = useRef(null);
-  
+
   // Set up responsive images based on screen size
   const bannerImages = [
     { desktop: banner1, mobile: banner1Mobile },
@@ -24,13 +24,13 @@ export default function BannerCarousel() {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 768); // 768px is standard md breakpoint
     };
-    
+
     // Initial check
     checkScreenSize();
-    
+
     // Add listener for window resize
     window.addEventListener('resize', checkScreenSize);
-    
+
     // Cleanup
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
@@ -40,7 +40,7 @@ export default function BannerCarousel() {
     const timer = setTimeout(() => {
       setCurrentSlide((prevSlide) => (prevSlide === bannerImages.length - 1 ? 0 : prevSlide + 1));
     }, 8000); // 8 seconds
-    
+
     return () => clearTimeout(timer);
   }, [currentSlide, bannerImages.length]);
 
@@ -63,10 +63,10 @@ export default function BannerCarousel() {
         nextSlide();
       }
     };
-    
+
     // Add keyboard event listener when component mounts
     window.addEventListener('keydown', handleKeyDown);
-    
+
     // Cleanup event listener when component unmounts
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -88,7 +88,7 @@ export default function BannerCarousel() {
       // Swipe left - next slide
       nextSlide();
     }
-    
+
     if (touchStart - touchEnd < -100) {
       // Swipe right - previous slide
       prevSlide();
@@ -96,7 +96,7 @@ export default function BannerCarousel() {
   };
 
   return (
-    <div 
+    <div
       className="pb-3 relative w-full overflow-hidden"
       ref={carouselRef}
       onTouchStart={handleTouchStart}
@@ -104,8 +104,8 @@ export default function BannerCarousel() {
       onTouchEnd={handleTouchEnd}
       tabIndex={0} // Make div focusable to capture keyboard events
     >
-      <div 
-        className="flex transition-transform duration-700 ease-in-out" 
+      <div
+        className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {bannerImages.map((image, index) => (
@@ -113,21 +113,23 @@ export default function BannerCarousel() {
             {/* Image container with appropriate dimensions */}
             <div className="w-full relative">
               {/* Mobile image - shown only on smaller screens */}
-              <img 
-                src={image.mobile} 
+              <img
+                src={image.mobile}
                 alt={`Banner image ${index + 1}`}
-                className="w-full md:hidden object-fit" 
+                className="w-full md:hidden object-fit"
                 style={{ height: '400px' }} // Taller fixed height for mobile
+                loading="lazy" // Lazy load images for better performance
               />
-              
+
               {/* Desktop image - hidden on mobile */}
-              <img 
-                src={image.desktop} 
+              <img
+                src={image.desktop}
                 alt={`Banner image ${index + 1}`}
-                className="w-full hidden md:block object-fit" 
+                className="w-full hidden md:block object-fit"
                 style={{ height: '680px' }}
+                loading="lazy" // Lazy load images for better performance
               />
-              
+
               {/* Overlay for "Shop Now" button */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <button className="bg-maroon hover:bg-darkMaroon text-cream py-2 px-4 sm:py-3 sm:px-8 rounded-md font-semibold shadow-custom transition-colors duration-300">
@@ -140,7 +142,7 @@ export default function BannerCarousel() {
       </div>
 
       {/* Navigation Arrows */}
-      <button 
+      <button
         onClick={prevSlide}
         className="absolute left-2 sm:left-4 md:left-6 lg:left-12 top-1/2 transform -translate-y-1/2 bg-cream bg-opacity-50 hover:bg-opacity-70 text-maroon p-1 sm:p-2 rounded-full focus:outline-none transition-all duration-300"
         aria-label="Previous slide"
@@ -149,8 +151,8 @@ export default function BannerCarousel() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
-      
-      <button 
+
+      <button
         onClick={nextSlide}
         className="absolute right-2 sm:right-4 md:right-6 lg:right-12 top-1/2 transform -translate-y-1/2 bg-cream bg-opacity-50 hover:bg-opacity-70 text-maroon p-1 sm:p-2 rounded-full focus:outline-none transition-all duration-300"
         aria-label="Next slide"

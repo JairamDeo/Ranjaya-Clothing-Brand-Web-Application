@@ -82,8 +82,7 @@ const reviewsData = [
         text: "The quality and design are outstanding. Can't wait to order more.",
         reviewer: "Ahmed Hassan",
         image: "/api/placeholder/50/50"
-    }    
-    
+    }
 ];
 
 // Sort reviews by stars (descending) and then by id (ascending) if stars are equal
@@ -99,7 +98,7 @@ const sortedReviewsData = [...reviewsData].sort((a, b) => {
 // Individual review card component
 const ReviewCard = ({ review }) => {
     return (
-        <div className="bg-cream rounded-lg border-maroon-20  shadow-custom p-6 mx-2 flex flex-col items-center h-full">
+        <div className="bg-cream rounded-lg border-maroon-20 shadow-custom p-6 mx-2 flex flex-col items-center h-full">
             <div className="flex mb-2">
                 {[...Array(5)].map((_, index) => (
                     <Star

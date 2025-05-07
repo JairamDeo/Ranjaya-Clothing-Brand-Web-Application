@@ -7,15 +7,15 @@ export default function HomeSection4() {
   const products = [
     {
       id: 1,
-      name: "", // Placeholder name come from backend
-      price: null, // Placeholder price come from backend
+      name: "Ranjaya Favourite", // Placeholder name come from backend
+      price: 0, // Placeholder price come from backend
       image: "/api/placeholder/300/400", // Placeholder image come from backend
       path: "/product/ranjaya-favourite" // Placeholder path
     }
     // Backend will populate this array with actual products
     // Additional products will appear in the carousel automatically
   ];
-  
+
   return (
     <ProductCarouselSection 
       title="RANJAYA FAVOURITES"

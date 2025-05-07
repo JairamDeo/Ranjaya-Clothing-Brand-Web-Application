@@ -97,11 +97,12 @@ const HomeSection6 = () => {
                 <div className="relative overflow-hidden rounded-lg shadow-custom h-[263px]">
                   <div className="w-full h-full">
                     <video 
-                      className="w-full h-full object-fit"
+                      className="w-full h-full object-cover object-center"
                       autoPlay 
                       muted 
                       loop
-                      playsInline
+                      playsInline 
+                      preload="auto"
                     >
                       <source src={item.video} type="video/mp4" />
                       Your browser does not support the video tag.

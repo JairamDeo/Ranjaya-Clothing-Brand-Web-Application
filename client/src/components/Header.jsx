@@ -1,34 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, ShoppingBag, User, ChevronDown, X, Search } from 'lucide-react';
-// Import logo from assets
 import Logo from '../assets/Logo.webp';
-// Import SearchBar component
 import SearchBar from './SearchBar';
-// Import CategoryDrawer component
 import CategoryDrawer from './CategoryDrawer';
-// Import CartComponent
 import CartComponent from './CartComponent';
 
 const Header = () => {
   const location = useLocation();
   const headerRef = useRef(null);
-  // State for mobile menu and search bar
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(160); // Default height
-  // State for category drawer
+  const [headerHeight, setHeaderHeight] = useState(160);
   const [activeCategoryDrawer, setActiveCategoryDrawer] = useState(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const isMobile = windowWidth < 768;
 
-  // Calculate and update header height on resize and mount
   useEffect(() => {
     const updateHeaderHeight = () => {
       if (headerRef.current) {
         const height = headerRef.current.offsetHeight;
         setHeaderHeight(height);
-        // Update CSS variable for the header height
         document.documentElement.style.setProperty('--header-height', `${height}px`);
       }
     };
@@ -38,28 +30,17 @@ const Header = () => {
       updateHeaderHeight();
     };
 
-    // Run once on mount
     updateHeaderHeight();
-
-    // Add resize listener
     window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (mobileMenuOpen && !event.target.closest('.mobile-menu') &&
-        !event.target.closest('.mobile-menu-button')) {
+      if (mobileMenuOpen && !event.target.closest('.mobile-menu') && !event.target.closest('.mobile-menu-button')) {
         setMobileMenuOpen(false);
       }
-
-      // Close search bar when clicking anywhere except the search component
-      if (searchOpen && !event.target.closest('.search-component') &&
-        !event.target.closest('.search-button')) {
+      if (searchOpen && !event.target.closest('.search-component') && !event.target.closest('.search-button')) {
         setSearchOpen(false);
       }
     };
@@ -68,25 +49,17 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [mobileMenuOpen, searchOpen]);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
     setSearchOpen(false);
     setActiveCategoryDrawer(null);
   }, [location]);
 
-  // Function to check if a link is active
   const isActive = (path) => {
-    // Handle home page special case
-    if (path === '/' && location.pathname === '/') {
-      return true;
-    }
-    // For other paths, check if the current path starts with the link path
-    // (this allows submenu pages to still highlight their parent menu item)
+    if (path === '/' && location.pathname === '/') return true;
     return path !== '/' && location.pathname.startsWith(path);
   };
 
-  // Navigation items data
   const navItems = [
     { name: "HOME", path: "/", hasDropdown: false },
     { name: "SUIT SETS", path: "/suit-sets", hasDropdown: true, opensCategoryDrawer: true },
@@ -97,66 +70,58 @@ const Header = () => {
     { name: "CONTACT US", path: "/contact-us", hasDropdown: false },
   ];
 
-  // Toggle category drawer
   const toggleCategoryDrawer = (category) => {
     setActiveCategoryDrawer(prev => prev === category ? null : category);
   };
 
   return (
     <>
-      {/* Main Navigation Bar */}
       <nav ref={headerRef} className="shadow-md w-full fixed top-0 left-0 z-50 bg-[#fefdf9]">
-        {/* ==================== TOP ROW - DESKTOP & MOBILE ==================== */}
         <div className="flex items-center px-4 py-3 md:px-6 lg:px-12" style={{ height: '80px' }}>
-          {/* === Left Section === */}
           <div className="flex items-center lg:w-1/3 justify-start">
-            {/* Desktop Hamburger - Left side on desktop only */}
             <button
               id="menu-button"
               onClick={() => toggleCategoryDrawer('SUIT SETS')}
               className="hidden lg:flex flex-col justify-center items-center h-8 w-8 hover:bg-[#f5e8e8] rounded-full p-2 transition-all"
+              aria-label="Toggle category drawer"
             >
               <span className="h-0.5 w-5 bg-[#993f3c] mb-1"></span>
               <span className="h-0.5 w-5 bg-[#993f3c] mb-1"></span>
               <span className="h-0.5 w-5 bg-[#993f3c]"></span>
             </button>
 
-            {/* Mobile Logo - Left aligned on mobile */}
-            <Link to="/" className="lg:hidden ml-2">
-              <img src={Logo} alt="Ranjaya" className="h-12" />
+            <Link to="/" className="lg:hidden ml-2" aria-label="Go to Home">
+              <img src={Logo} alt="Ranjaya Logo" className="h-12" loading="lazy" />
             </Link>
           </div>
 
-          {/* === Center Section === */}
           <div className="hidden lg:flex justify-center items-center lg:w-1/3">
-            {/* Desktop Logo - Centered on desktop/laptop */}
-            <Link to="/">
-              <img src={Logo} alt="Ranjaya" className="h-16" />
+            <Link to="/" aria-label="Go to Home">
+              <img src={Logo} alt="Ranjaya Logo" className="h-16" loading="lazy" />
             </Link>
           </div>
 
-          {/* === Right Section - Icons === */}
           <div className="flex items-center ml-auto lg:w-1/3 justify-end space-x-5">
-            {/* Search Icon & Functionality */}
             <div className="relative search-component">
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
                 className="text-[#993f3c] hover:bg-[#f5e8e8] p-2 rounded-full transition-all search-button"
+                aria-label="Toggle search bar"
               >
                 <Search className="h-5 w-5" />
               </button>
-
-              {/* SearchBar Component */}
               {searchOpen && <SearchBar />}
             </div>
 
-            {/* Shopping Bag Icon */}
-            <div className="cart-button">
+            <div className="cart-button" aria-label="Shopping cart">
               <CartComponent />
             </div>
 
-            {/* User Account Icon */}
-            <Link to="/account" className="text-[#993f3c] hover:bg-[#f5e8e8] p-2 rounded-full transition-all">
+            <Link
+              to="/account"
+              className="text-[#993f3c] hover:bg-[#f5e8e8] p-2 rounded-full transition-all"
+              aria-label="User account"
+            >
               <User className="h-5 w-5" />
             </Link>
 

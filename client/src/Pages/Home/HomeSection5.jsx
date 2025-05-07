@@ -12,11 +12,8 @@ export default function HomeSection5() {
   ];
 
   return (
-    <div
-      className="py-3 relative w-full overflow-hidden"
-    >
-      <div
-      >
+    <div className="py-3 relative w-full overflow-hidden">
+      <div>
         {bannerImages.map((image, index) => (
           <div key={index} className="min-w-full relative">
             {/* Image container with appropriate dimensions */}
@@ -24,24 +21,30 @@ export default function HomeSection5() {
               {/* Mobile image - shown only on smaller screens */}
               <img
                 src={image.mobile}
-                alt={`Banner image ${index + 1}`}
-                className="w-full md:hidden object-fit"
+                alt={`Success story banner mobile version ${index + 1}`}
+                className="w-full md:hidden object-cover"
+                width="1000"
+                height="600"
+                loading="lazy"
+                decoding="async"
                 style={{ height: '600px' }}
               />
 
               {/* Desktop image - hidden on mobile */}
               <img
                 src={image.desktop}
-                alt={`Banner image ${index + 1}`}
-                className="w-full hidden md:block object-fit"
+                alt={`Success story banner desktop version ${index + 1}`}
+                className="w-full hidden md:block object-cover"
+                width="1000"
+                height="475"
+                loading="lazy"
+                decoding="async"
                 style={{ height: '475px' }}
               />
-
             </div>
           </div>
         ))}
       </div>
-
     </div>
   );
 }

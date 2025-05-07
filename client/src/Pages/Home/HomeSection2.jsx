@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -46,7 +46,6 @@ export default function HomeSection2({
   const touchEndX = useRef(0);
   const carouselRef = useRef(null);
 
-
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? collections.length - 1 : prev - 1));
   };
@@ -61,15 +60,10 @@ export default function HomeSection2({
 
   const handleTouchEnd = (e) => {
     touchEndX.current = e.changedTouches[0].clientX;
-    
     const diff = touchStartX.current - touchEndX.current;
     const threshold = 50;
-    
-    if (diff > threshold) {
-      handleNext();
-    } else if (diff < -threshold) {
-      handlePrev();
-    }
+    if (diff > threshold) handleNext();
+    else if (diff < -threshold) handlePrev();
   };
 
   return (
@@ -85,7 +79,7 @@ export default function HomeSection2({
 
         {/* Desktop View - Always visible on larger screens */}
         <div 
-          className="hidden md:flex justify-center gap-2 lg:gap-3 mb-8"
+          className="hidden md:flex justify-center gap-2 lg:gap-3 mb-8 flex-wrap"
           data-aos="fade-up"
           data-aos-delay="100"
           ref={carouselRef}
@@ -112,11 +106,11 @@ export default function HomeSection2({
         >
           <div className="overflow-hidden w-full max-w-xs">
             <div 
-              className="flex transition-transform duration-300 ease-in-out" 
+              className="flex transition-transform duration-300 ease-in-out"
               style={{ transform: `translateX(-${activeIndex * 100}%)` }}
             >
               {collections.map((collection, index) => (
-                <div key={collection.id} className="w-full flex-shrink-0 flex justify-center">
+                <div key={collection.id} className="w-full flex-shrink-0 flex justify-center px-2">
                   <CollectionBox 
                     collection={collection}
                     index={index}
@@ -129,7 +123,7 @@ export default function HomeSection2({
           {/* Carousel Controls */}
           <button 
             onClick={handlePrev}
-            className="absolute top-1/2 left-0 -translate-y-1/2 bg-cream/80 p-2 rounded-full shadow-custom text-maroon hover:text-darkMaroon"
+            className="absolute top-1/2 left-1 -translate-y-1/2 bg-cream/80 p-2 rounded-full shadow-custom text-maroon hover:text-darkMaroon"
             aria-label="Previous collection"
           >
             <ChevronLeft size={24} />
@@ -137,14 +131,14 @@ export default function HomeSection2({
           
           <button 
             onClick={handleNext}
-            className="absolute top-1/2 right-0 -translate-y-1/2 bg-cream/80 p-2 rounded-full shadow-custom text-maroon hover:text-darkMaroon"
+            className="absolute top-1/2 right-1 -translate-y-1/2 bg-cream/80 p-2 rounded-full shadow-custom text-maroon hover:text-darkMaroon"
             aria-label="Next collection"
           >
             <ChevronRight size={24} />
           </button>
 
           {/* Carousel Indicators */}
-          <div className="flex justify-center mt-4 gap-2 w-full absolute bottom-[-20px]">
+          <div className="flex justify-center mt-4 gap-2 w-full absolute -bottom-6">
             {collections.map((_, index) => (
               <button 
                 key={index}
@@ -178,7 +172,7 @@ function CollectionBox({ collection, index }) {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
       </div>
-      
+
       {/* Collection Name Styled Like a Button (but not a link anymore) */}
       <div 
         className="w-full py-2 px-3 bg-maroon text-cream rounded hover:bg-darkMaroon transition-colors font-medium flex items-center justify-center gap-2"
